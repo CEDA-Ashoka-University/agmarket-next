@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model accesstoken {
+  token      String   @id @db.VarChar(43)
+  created_at DateTime @db.DateTime(0)
+  user_id    String   @db.Char(36)
+  user       user     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "accesstoken_ibfk_1")
+
+  @@index([created_at], map: "ix_accesstoken_created_at")
+  @@index([user_id], map: "user_id")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model api_violations {
+  violator_id              Int
+  strikes                  Int           @default(1) @db.TinyInt
+  last_violation_timestamp DateTime      @default(now()) @db.Timestamp(0)
+  api_violators            api_violators @relation(fields: [violator_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "api_violations_FK")
+
+  @@index([violator_id], map: "api_violations_FK")
+  @@ignore
+}
+
+model api_violators {
+  id                 Int              @id @default(autoincrement())
+  ip_address         String           @db.VarChar(50)
+  permaban           Boolean          @default(false)
+  permaban_timestamp DateTime?        @db.DateTime(0)
+  api_violations     api_violations[] 
+  @@ignore
+}
+
+model master_commodities {
+  commodity_id        Int              @id
+  commodity_name      String           @db.VarChar(200)
+  commodity_disp_name String?          @db.VarChar(100)
+  price               price[]
+  quantity            quantity[]
+  raw_prices          raw_prices[]
+  raw_quantities      raw_quantities[]
+}
+
+model master_district {
+  district_id          Int                    @id
+  district_name        String                 @db.VarChar(100)
+  price                price[]
+  quantity             quantity[]
+  raw_prices           raw_prices[]
+  raw_quantities       raw_quantities[]
+  trans_state_district trans_state_district[]
+}
+
+model master_states {
+  state_id             Int                    @id
+  state_name           String                 @db.VarChar(100)
+  trans_state_district trans_state_district[]
+}
+
+model price {
+  id                 BigInt             @id @default(autoincrement())
+  district_id        Int
+  market_id          Int
+  market_name        String?            @db.VarChar(100)
+  commodity_id       Int
+  variety            String?            @db.VarChar(100)
+  grade              String?            @db.VarChar(100)
+  min_price          Float?             @db.Float
+  max_price          Float?             @db.Float
+  modal_price        Float?             @db.Float
+  date               DateTime?          @db.Date
+  master_district    master_district    @relation(fields: [district_id], references: [district_id], onDelete: NoAction, onUpdate: NoAction, map: "price_FK")
+  master_commodities master_commodities @relation(fields: [commodity_id], references: [commodity_id], onDelete: NoAction, onUpdate: NoAction, map: "price_FK_1")
+
+  @@index([district_id], map: "price_FK")
+  @@index([commodity_id, district_id, date], map: "price_commodity_district")
+  @@index([commodity_id], map: "price_group_by_commodity")
+}
+
+model quantity {
+  id                 Int                @id @default(autoincrement())
+  district_id        Int
+  market_id          Int
+  market_name        String?            @db.VarChar(200)
+  commodity_id       Int
+  quantity           Float              @db.Float
+  date               DateTime           @db.Date
+  master_district    master_district    @relation(fields: [district_id], references: [district_id], onDelete: NoAction, onUpdate: NoAction, map: "quantity_FK")
+  master_commodities master_commodities @relation(fields: [commodity_id], references: [commodity_id], onDelete: NoAction, onUpdate: NoAction, map: "quantity_FK_1")
+
+  @@index([commodity_id, district_id, date], map: "qty_commodity_district")
+  @@index([district_id], map: "quantity_FK")
+}
+
+model raw_prices {
+  id                   BigInt             @id @default(autoincrement())
+  state_id             String             @db.VarChar(100)
+  state_name           String             @db.VarChar(200)
+  district_id          Int
+  district_name        String             @db.VarChar(200)
+  market_id            Int
+  market_name          String             @db.VarChar(200)
+  census_state_id      Int
+  census_state_name    String             @db.VarChar(200)
+  census_district_id   Int
+  census_district_name String             @db.VarChar(200)
+  commodity_id         Int
+  commodity_name       String             @db.VarChar(200)
+  variety              String?            @db.VarChar(200)
+  grade                String?            @db.VarChar(200)
+  min_price            Float?             @db.Float
+  max_price            Float?             @db.Float
+  modal_price          Float?             @db.Float
+  date                 DateTime           @db.Date
+  master_commodities   master_commodities @relation(fields: [commodity_id], references: [commodity_id], onUpdate: Restrict, map: "raw_prices_FK")
+  master_district      master_district    @relation(fields: [census_district_id], references: [district_id], onUpdate: Restrict, map: "raw_prices_FK_1")
+
+  @@index([commodity_id], map: "raw_prices_FK")
+  @@index([census_district_id], map: "raw_prices_FK_1")
+  @@index([census_state_id, commodity_id, date], map: "raw_prices_census_state_id_IDX")
+  @@index([state_id, district_id, commodity_id, date], map: "raw_prices_state_id_IDX")
+}
+
+model raw_quantities {
+  id                   BigInt             @id @default(autoincrement())
+  state_id             String             @db.VarChar(100)
+  state_name           String             @db.VarChar(200)
+  district_id          Int
+  district_name        String             @db.VarChar(200)
+  market_id            Int
+  market_name          String             @db.VarChar(200)
+  census_state_id      Int
+  census_state_name    String             @db.VarChar(200)
+  census_district_id   Int
+  census_district_name String             @db.VarChar(200)
+  commodity_id         Int
+  commodity_name       String             @db.VarChar(200)
+  quantity             Float?             @db.Float
+  date                 DateTime           @db.Date
+  master_commodities   master_commodities @relation(fields: [commodity_id], references: [commodity_id], onUpdate: Restrict, map: "raw_quantities_FK")
+  master_district      master_district    @relation(fields: [census_district_id], references: [district_id], onUpdate: Restrict, map: "raw_quantities_FK_1")
+
+  @@index([commodity_id], map: "raw_quantities_FK")
+  @@index([census_district_id], map: "raw_quantities_FK_1")
+  @@index([census_state_id, commodity_id, date], map: "raw_quantities_census_state_id_IDX")
+  @@index([state_id, district_id, commodity_id, date], map: "raw_quantities_state_id_IDX")
+}
+
+model trans_state_district {
+  id              Int             @id @default(autoincrement())
+  state_id        Int
+  district_id     Int
+  area_id         Int
+  master_states   master_states   @relation(fields: [state_id], references: [state_id], onDelete: NoAction, onUpdate: NoAction, map: "trans_state_district_FK")
+  master_district master_district @relation(fields: [district_id], references: [district_id], onDelete: NoAction, onUpdate: NoAction, map: "trans_state_district_FK_1")
+
+  @@index([state_id], map: "trans_state_district_FK")
+  @@index([district_id], map: "trans_state_district_FK_1")
+}
+
+model user {
+  id              String        @id @db.Char(36)
+  email           String        @unique(map: "ix_user_email") @db.VarChar(320)
+  hashed_password String        @db.VarChar(1024)
+  is_active       Boolean
+  is_superuser    Boolean
+  is_verified     Boolean
+  organisation    String        @db.VarChar(50)
+  occupation      String        @db.VarChar(50)
+  accesstoken     accesstoken[]
+}

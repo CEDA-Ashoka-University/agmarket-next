@@ -1,0 +1,60 @@
+.hoverableDropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+.hoverableDropdown:hover {
+  background-color: var(--background-hover);
+}
+
+.hoverableDropdownBtn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-items: center;
+  padding: 12px 24px;
+}
+
+.hoverableDropdownBtn p {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  margin-right: auto;
+}
+
+.hoverableDropdown .hoverableDropdownContent {
+  position: absolute;
+  background-color: white;
+
+  border: 1px solid var(--border-color);
+  border-radius: 0px 4px 4px 0px;
+
+  left: 100%;
+  top: 0%;
+
+  min-width: 100%;
+  margin: 0px 1px;
+
+  display: none;
+}
+
+.hoverableDropdown:hover .hoverableDropdownContent {
+  display: block;
+}
+
+.hoverableDropdown .hoverableDropdownContent p {
+  padding: 12px 24px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+}
+
+.hoverableDropdown .hoverableDropdownContent p:hover {
+  background-color: var(--background-hover);
+}
+
+.hoverableDropdown .hoverableDropdownContent p.active {
+  font-weight: 700;
+}
