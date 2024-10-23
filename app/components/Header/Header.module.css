@@ -4,7 +4,14 @@
   align-items: center;
   padding: 0px 25px;
   border-bottom: 1px solid var(--border-color);
+  width: 1511px;
+  height: 90px;
+  top: 77px;
+  gap: 0px;
+  opacity: 0px;
 }
+
+
 
 .ecometerHeadingContainer {
   display: flex;

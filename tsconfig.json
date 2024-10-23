@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/HeatmapChart/HeatmapChart.jsx", "app/components/HeatmapChart/HeatmapChart.js", "app/components/LineChart/LineChart.js", "app/components/LineChart/LineChart.js", "app/components/Table/table.js", "app/components/Table/table.js"],
   "exclude": ["node_modules"]
 }

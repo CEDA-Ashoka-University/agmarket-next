@@ -205,30 +205,3 @@ const PriceChartPage = () => {
 
 export default PriceChartPage;
 
-// "use client"
-// // app/pages/PriceChartPage.tsx
-
-// import { useState } from 'react';
-// import FilterOptions from '../components/FilterOptions/FilterOptions';
-// import LineGraph from '../components/LineGraph/LineGraph';
-
-// const PriceChartPage = () => {
-//   const [filters, setFilters] = useState({
-//     commodityId: '',
-//     districtId: '',
-//     stateId: '',
-//     startDate: '',
-//     endDate: '',
-//     granularity: 'daily',
-//   });
-
-//   return (
-//     <div>
-//       <h1>Price Chart</h1>
-//       <FilterOptions onFiltersChange={(newFilters) => setFilters(newFilters)} />
-//       <LineGraph filters={filters} />
-//     </div>
-//   );
-// };
-
-// export default PriceChartPage;
