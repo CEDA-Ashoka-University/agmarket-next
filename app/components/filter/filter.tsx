@@ -1,123 +1,27 @@
-// import Button from 'react-bootstrap/Button';
-// import ButtonGroup from 'react-bootstrap/ButtonGroup';
-// import Dropdown from 'react-bootstrap/Dropdown';
-// import "./SingleSelectDropdown.css"
 
 
-// interface FilterProps {
-//     stateFilter: string;
-//     setStateFilter: (state: string) => void;
-//     commodityFilter: string;
-//     setCommodityFilter: (commodity: string) => void;
-//     availableStates: string[];
-//     availableCommodities: string[];
-//   }
-  
-//   const Filter: React.FC<FilterProps> = ({
-//     stateFilter,
-//     setStateFilter,
-//     commodityFilter,
-//     setCommodityFilter,
-//     availableStates,
-//     availableCommodities,
-//   }) => {
-//     return (
-//         <div className="flex flex-col w-full mb-4">
-//           <div className="flex w-full justify-between gap-4 px-4 py-2 bg-white text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-            
-//           <label className="flex-1 font-sans font-bold">
-//               Category
-//               <select
-//                 className="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//                 value={commodityFilter}
-//                 onChange={(e) => setCommodityFilter(e.target.value)}
-//               >
-//                 {availableCommodities.map((commodity) => (
-//                   <option key={commodity} value={commodity}>
-//                     {commodity}
-//                   </option>
-//                 ))}
-//               </select>
-//             </label>
+// export default Filter;
 
-//             <label className="flex-1 font-sans font-bold">
-//               Commodity
-//               <select
-//                 className="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//                 value={commodityFilter}
-//                 onChange={(e) => setCommodityFilter(e.target.value)}
-//               >
-//                 {availableCommodities.map((commodity) => (
-//                   <option key={commodity} value={commodity}>
-//                     {commodity}
-//                   </option>
-//                 ))}
-//               </select>
-//             </label>
-
-
-            
-//             <label className="flex-1 font-sans font-bold">
-//               State:
-//               <select
-//                 className="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//                 value={stateFilter}
-//                 onChange={(e) => setStateFilter(e.target.value)}
-//               >
-//                 {availableStates.map((state) => (
-//                   <option key={state} value={state}>
-//                     {state}
-//                   </option>
-//                 ))}
-//               </select>
-//             </label>
-      
-//             <label className="flex-1 font-sans font-bold">
-//               District
-//               <select
-//                 className="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//                 value={commodityFilter}
-//                 onChange={(e) => setCommodityFilter(e.target.value)}
-//               >
-//                 {availableCommodities.map((commodity) => (
-//                   <option key={commodity} value={commodity}>
-//                     {commodity}
-//                   </option>
-//                 ))}
-//               </select>
-//             </label>
-//             <label className="flex-1 font-sans font-bold">
-//               Mandi
-//               <select
-//                 className="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-//                 value={commodityFilter}
-//                 onChange={(e) => setCommodityFilter(e.target.value)}
-//               >
-//                 {availableCommodities.map((commodity) => (
-//                   <option key={commodity} value={commodity}>
-//                     {commodity}
-//                   </option>
-//                 ))}
-//               </select>
-//             </label>
-        
-//           </div>
-//         </div>
-//       );
-//   };
-  
-//   export default Filter;
-  
-import React, { useEffect, useState } from 'react';
-import "./SingleSelectDropdown.css";
+import React, { useEffect, useState } from "react";
+import styles from "./Filters.module.css"; // Import CSS module
 
 interface FilterProps {
   stateFilter: string;
-  setStateFilter: (value: string) => void;
+  setStateFilter: React.Dispatch<React.SetStateAction<string>>;
   commodityFilter: string;
-  setCommodityFilter: (value: string) => void;
+  setCommodityFilter: React.Dispatch<React.SetStateAction<string>>;
   districtFilter: string;
-  setDistrictFilter: (value: string) => void;
+  setDistrictFilter: React.Dispatch<React.SetStateAction<string>>;
+  startDate: string;
+  setStartDate: React.Dispatch<React.SetStateAction<string>>;
+  endDate: string;
+  setEndDate: React.Dispatch<React.SetStateAction<string>>;
+  calculationtype: string;
+  setCalculationTypeFilter: React.Dispatch<React.SetStateAction<string>>;
+  // setDistrictFilter: React.Dispatch<React.SetStateAction<string>>;
+  availableStates: string[];
+  availableCommodities: string[];
+  availableDistricts: string[];
 }
 
 const Filter: React.FC<FilterProps> = ({
@@ -127,17 +31,29 @@ const Filter: React.FC<FilterProps> = ({
   setCommodityFilter,
   districtFilter,
   setDistrictFilter,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  calculationtype,
+  setCalculationTypeFilter,
 }) => {
   const [availableStates, setAvailableStates] = useState<{ state_id: number; state_name: string }[]>([]);
-  const [availableCommodities, setAvailableCommodities] = useState<{ commodity_id: number; commodity_name: string }[]>([]);
+  const [availableCategories, setAvailableCategories] = useState<{ category_id: number; category_name: string }[]>([]);
+  const [availableCommodities, setAvailableCommodities] = useState<{ commodity_id: number; commodity_name: string; category_id: number }[]>([]);
+  const [filteredCommodities, setFilteredCommodities] = useState<{ commodity_id: number; commodity_name: string }[]>([]);
+  const [categoryFilter, setCategoryFilter] = useState<string>("");
   const [availableDistricts, setAvailableDistricts] = useState<{ district_id: number; district_name: string }[]>([]);
+
 
   useEffect(() => {
     async function fetchFilterOptions() {
       try {
         const res = await fetch(`/api/all`);
         const data = await res.json();
+        console.log("inside filter data", data);
         setAvailableStates(data.states || []);
+        setAvailableCategories(data.categories || []);
         setAvailableCommodities(data.commodities || []);
       } catch (error) {
         console.error("Error fetching filter options:", error);
@@ -163,18 +79,49 @@ const Filter: React.FC<FilterProps> = ({
     fetchDistricts();
   }, [stateFilter]);
 
+  // Update commodities based on the selected category
+  useEffect(() => {
+    if (categoryFilter) {
+      const filtered = availableCommodities.filter(
+        (commodity) => commodity.category_id === Number(categoryFilter)
+      );
+      setFilteredCommodities(filtered);
+    } else {
+      setFilteredCommodities([]);
+    }
+  }, [categoryFilter, availableCommodities]);
+
   return (
-    <div className="flex flex-col w-full mb-4">
-      <div className="flex w-full justify-between gap-4 px-4 py-2 bg-white text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-        <label className="flex-1 font-sans font-bold">
+    <div className={styles.container}>
+      <div className={styles.card}>
+        {/* Category Filter */}
+        <label className={styles.label}>
+          Category:
+          <select
+            className={styles.select}
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
+            <option value="">Select a category</option>
+            {availableCategories.map((category) => (
+              <option key={category.category_id} value={category.category_id}>
+                {category.category_name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        {/* Commodity Filter */}
+        <label className={styles.label}>
           Commodity:
           <select
-            className="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className={styles.select}
             value={commodityFilter}
             onChange={(e) => setCommodityFilter(e.target.value)}
+            disabled={!categoryFilter} // Disable if no category is selected
           >
             <option value="">Select a commodity</option>
-            {availableCommodities.map((commodity) => (
+            {filteredCommodities.map((commodity) => (
               <option key={commodity.commodity_id} value={commodity.commodity_id}>
                 {commodity.commodity_name}
               </option>
@@ -182,10 +129,11 @@ const Filter: React.FC<FilterProps> = ({
           </select>
         </label>
 
-        <label className="flex-1 font-sans font-bold">
+        {/* State Filter */}
+        <label className={styles.label}>
           State:
           <select
-            className="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className={styles.select}
             value={stateFilter}
             onChange={(e) => setStateFilter(e.target.value)}
           >
@@ -198,19 +146,58 @@ const Filter: React.FC<FilterProps> = ({
           </select>
         </label>
 
-        <label className="flex-1 font-sans font-bold">
+        {/* District Filter */}
+        <label className={styles.label}>
           District:
           <select
-            className="block w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className={styles.select}
             value={districtFilter}
             onChange={(e) => setDistrictFilter(e.target.value)}
           >
             <option value="">Select a district</option>
+            <option value="0">All Districts</option>
             {availableDistricts.map((district) => (
               <option key={district.district_id} value={district.district_id}>
                 {district.district_name}
               </option>
             ))}
+          </select>
+        </label>
+
+        {/* Start Date Filter */}
+        <label className={styles.label}>
+          Start Date:
+          <input
+            type="date"
+            className={styles.input}
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </label>
+
+        {/* End Date Filter */}
+        <label className={styles.label}>
+          End Date:
+          <input
+            type="date"
+            className={styles.input}
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </label>
+
+        {/* Calculation Type Filter */}
+        <label className={styles.label}>
+          Calculation Type:
+          <select
+            className={styles.select}
+            value={calculationtype}
+            onChange={(e) => setCalculationTypeFilter(e.target.value)}
+          >
+            <option value="">Select calculation type</option>
+            <option value="daily">Daily</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
           </select>
         </label>
       </div>

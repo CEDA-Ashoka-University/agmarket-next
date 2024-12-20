@@ -1,0 +1,303 @@
+/* PriceTable.module.css */
+
+.pricetablecontainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    /* border: 1px solid black; */
+    border-radius: 32px;
+  }
+  
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem;
+    width: 100%;
+    /* border: 1px solid black;
+    border-radius: 32px; */
+  }
+  
+  .titleWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 440px;
+  }
+  
+
+
+  .header {
+    padding: 14px;
+  }
+  
+  .title {
+    color: rgba(26, 55, 95, 1);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 16px;
+  }
+  
+  .priceInfo {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .currentPrice {
+    flex: 1;
+  }
+  
+  .priceValue {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .amount {
+    color: rgba(26, 55, 95, 1);
+    font-size: 24px;
+    font-weight: 700;
+  }
+  
+  .unit {
+    color: rgba(26, 55, 95, 1);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .priceDate {
+    color: rgba(26, 55, 95, 1);
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  
+  .divider {
+    width: 1px;
+    height: 54px;
+    background: rgba(0, 0, 0, 1);
+  }
+
+
+
+  .priceChange {
+    flex: 1;
+  }
+  
+  .changeValue {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .changeBadge {
+    background: rgba(72, 130, 26, 0.08);
+    color: rgba(72, 130, 26, 1);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  
+ 
+  .changePercent {
+    font-weight: bold;
+  }
+  
+  .positive {
+    color: green;
+  }
+  
+  .negative {
+    color: red;
+  }
+  
+  
+  .changeDate {
+    color: rgba(26, 55, 95, 1);
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  
+  .detailsWrapper {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  .priceWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 181px;
+  }
+  
+  .price {
+    font-size: 2xl;
+    font-weight: bold;
+  }
+  
+  .unit {
+    font-size: sm;
+    font-weight: 600;
+  }
+  
+  .modalPriceDate {
+    margin-top: 0.5rem;
+    font-size: xs;
+    line-height: snug;
+  }
+  
+  .separator {
+    width: 1px;
+    height: 54px;
+    border: 1px solid black;
+  }
+  
+  .changeWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 195px;
+  }
+  
+  .changeDetails {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    text-size: sm;
+    color: #84CC16; /* lime-700 */
+  }
+  
+  .changeAmount {
+    display: flex;
+    gap: 1rem;
+    padding: 0.375rem 0.75rem;
+    font-weight: bold;
+    border-radius: 0.375rem;
+    background-color: rgba(132, 204, 22, 0.1);
+    width: 95px;
+  }
+  
+  .changeValue {
+    padding: 0.625rem;
+    font-size: sm;
+    color: #475569; /* slate-400 */
+  }
+  
+  .changePercent {
+    font-weight: 600;
+  }
+  
+  .changeDate {
+    margin-top: 0.5rem;
+    font-size: xs;
+    line-height: snug;
+    color: #1E3A8A;
+  }
+  
+
+  
+  .separatorLine {
+    margin-top: 1.5rem;
+    border: 1px solid black;
+  }
+  
+  .tableWrapper {
+    /* display: flex; */
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.25rem;
+    margin-top: 1.5rem;
+    height: 362px;
+   
+
+
+  }
+ 
+  .table {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.75rem;
+    width: 100%;
+    border: 1px solid black;
+    background-color: #1E3A8A; /* blue-950 */
+    color: #1E3A8A; /* blue-950 */
+    border-radius: 2xl;
+  }
+  .tableBody{
+    height: 180px;
+  }
+  .tableHeader {
+    display:block;
+    gap: 2.5rem;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .tableRow {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    font-size: xs;
+    font-weight: medium;
+    color: #1E3A8A;
+  }
+  
+  .tableFooter {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1rem 1.5rem;
+    font-size: xs;
+    font-weight: medium;
+    background-color: #F3F4F6; /* gray-100 */
+    border-top: 1px solid rgba(30, 58, 138, 0.3); /* blue-950 border-opacity-30 */
+    color: #1E3A8A;
+  }
+  
+  .actions {
+    /* background: rgba(243, 245, 247, 1);
+    padding: 16px 24px;
+    display: flex;
+    gap: 24px;
+    border-radius: 0 0 32px 32px; */
+    background-color: rgba(243, 245, 247, 1);
+    border-radius: 0 0 32px 32px;
+    padding: 17px 24px;
+    display: flex;
+    border-top: 1px solid rgba(26, 55, 95, 0.3);
+  }
+  
+
+
+  .actionButton {
+    background: white;
+    border: 1px solid rgba(26, 55, 95, 1);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: rgba(26, 55, 95, 1);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .actionContent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .actionIcon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  @media (max-width: 991px) {
+    .container {
+      max-width: 100%;
+    }
+    
+    .actions {
+      padding: 16px 20px;
+    }
+  }

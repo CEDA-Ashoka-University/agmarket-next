@@ -1,0 +1,326 @@
+/* styles/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+.chartContainer {
+  /* border: 1px solid black; */
+  position: relative;
+  /* width: 800px; Adjust as needed */
+  height: 400px; /* Adjust as needed */
+  /* position: relative; */
+  width: 100%;
+  /* height: 80%;¸ */
+  /* background-color: white; */
+  background-color: transparent;
+
+  /* display: flex; */
+  flex-direction: row;
+  /* z-index: 1; */
+}
+
+.svgLineChart {
+  background-color: transparent;
+  /* width: 85%; */
+  width: var(--main-content-width);
+  flex: 1;
+  width: 100%;
+  aspect-ratio: 2.4;
+  object-fit: contain;
+  margin-top: 14px;
+  margin-left: 4px;
+  margin-right: 5px;
+
+}
+
+.displayedChartContainer {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  /* border-left: 1px solid var(--border-color); */
+
+  /* max-width: calc(25% - 24px); */
+  width: calc(100% - var(--main-content-width) - 24px);
+  max-height: 45vh;
+
+  margin: 24px;
+  /* padding: 24px; */
+  padding: 32px 24px 8px 24px;
+  overflow-y: scroll;
+
+  align-self: flex-start;
+}
+
+
+@media only screen and (max-width: 1024px) {
+  .displayedChartContainer {
+    margin: 0;
+    /* width: calc(100% - var(--main-content-width) - 12px); */
+    width: max-content;
+    padding: 12px;
+  }
+}
+
+.png {
+  overflow: visible;
+  max-height: none;
+  padding:20px;
+}
+
+.displayedChartContainer h2 {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #7086a4;
+
+  padding-bottom: 20px;
+
+  text-transform: uppercase;
+}
+
+.lineLabelContainer {
+  position: relative;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding-left: 12%;
+  margin-bottom: 20px;
+  min-width: 200px;
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 1440px) {
+  .lineLabelContainer {
+    min-width: 150px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .lineLabelContainer {
+    min-width: auto;
+    width: max-content;
+  }
+}
+
+.lineLabelContainer.hiddenLable {
+  opacity: 40%;
+}
+
+.lineLabelContainer .colorBlock {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+
+  width: 8px;
+  height: 100%;
+  border-radius: 4px 0px 0px 4px;
+  background-color: green;
+  border: 1px solid green;
+  box-sizing: content-box;
+}
+
+.lineLabelContainer .content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.lineLabelContainer .content .row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.lineLabelContainer .content .row h3 {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--primary-color);
+  margin-right: auto;
+}
+
+.lineLabelContainer .content .row svg {
+  min-width: 8px;
+  min-height: 8px;
+  cursor: pointer;
+}
+
+.lineLabelContainer .content p {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--primary-color);
+  opacity: 60%;
+}
+
+.h1 {
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.xAxis,
+.yAxis {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.xAxis text,
+.yAxis text {
+  opacity: 80%;
+}
+
+.axis_label {
+  font-family: '__Inter_aaf875';
+  font-weight: 500;
+  font-size: 15px;
+  fill: #1a375f;
+}
+
+
+.chart-container-rect {
+  opacity: 0;
+}
+
+.vertical-hover-line {
+  stroke: #dddddd;
+  stroke-width: 1;
+}
+
+.line,
+.line-dot,
+.vertical-hover-line {
+  pointer-events: none;
+}
+
+.label-container {
+  width: 20%;
+  /* border: 1px solid black; */
+}
+
+.labels {
+  /* background: yellow; */
+  margin-top: 20px;
+}
+
+.label {
+  border: 1px solid #dddddd;
+  border-left: 8px solid black;
+  padding: 5px 10px;
+  margin-bottom: 8px;
+  display: flex;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.label p {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  margin: 0px;
+  color: #1a375f;
+}
+
+.label .key {
+  flex: 1;
+}
+
+#tooltip {
+  position: absolute;
+  pointer-events: none;
+  top: 0px;
+  left: 0px;
+  border-radius: 4px;
+  box-shadow: 0 4px 40px #0003;
+  pointer-events: none;
+  overflow: hidden;
+  display: none;
+  min-width: 150px;
+  max-width: 200px;
+  /* z-index: 1000; Adjust as necessary */
+  
+}
+
+#tooltip .heading {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--primary-color);
+  background-color: #dedede;
+  padding: 8px;
+}
+
+#tooltip .row {
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* justify-content: space-between; */
+  padding: 4px 8px;
+}
+
+#tooltip .row .left-item {
+    font-family: "PoppinsRegular";
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+#tooltip .row .box {
+  display: inline-block;
+  min-width: 20px;
+  min-height: 20px;
+  width: 20px;
+  height: 20px;
+
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+#tooltip .row .item_name {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #1a375f;
+  margin: 0px 0px 0px 10px;
+  flex: 1;
+}
+
+#tooltip .row .right_item {
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  color: #1a375f;
+  margin: 0px;
+  padding-left: 4px;
+}
+
+.button {
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+}
+
+.tick text {
+  fill: #1a375f;
+}
+
+.domain {
+  stroke: #1a375f;
+}
+
+.blackFont {
+  color: black;
+}
+

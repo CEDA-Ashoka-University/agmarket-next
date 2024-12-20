@@ -1,0 +1,222 @@
+.wrapper {
+  position: relative; /* Allows positioning child elements relative to this container */
+  width: 800px;
+  margin: 0 auto;
+}
+
+.chartTypeSelector {
+  display: flex;
+  align-items: center;
+  gap: -1px;
+  font-size: 14px;
+  color: rgba(26, 55, 95, 1);
+  line-height: 1.4;
+  /* height: 621px; */
+  z-index: 1;
+  align-self: center;
+  padding-left: 40%;
+  position: relative;
+  /* padding: 0 10px; */
+  background: transparent;
+
+}
+.chartcontainer {
+    border-radius: 32px;
+    max-width: 928px;
+    font-family: Inter, sans-serif;
+    font-weight: 500;
+    /* border: 1px solid rgba(0, 0, 0, 1); */
+    /* height: 641px; */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #d1d5db; /*Tailwind's border-gray-300 */
+    position: relative;
+    margin-top: -15px;
+    z-index: 0;
+    height: 617px;
+    
+
+  }
+  /* width: 66.67%; 4/6 */
+  /* background-color: white; */
+  /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
+  /* height: 641px; */
+  /* min-width: max-content; */
+  /* text-align: left; */
+
+  /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
+  /* border: 1px solid #d1d5db; Tailwind's border-gray-300 */
+  /* border-radius: 30px; */
+  /* padding: 0.5rem; */
+  /* overflow-y: auto; */
+
+
+
+
+ 
+  /* align-self: center;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 14px;
+  color: rgba(26, 55, 95, 1);
+  line-height: 1.4; */
+
+  .chartWrapper {
+    border-radius: 32px;
+    max-width: 928px;
+    font-family: Inter, sans-serif;
+    font-weight: 500;
+    /* border: 1px solid rgba(0, 0, 0, 1); */
+    height: 524px;
+  }
+
+
+  .filterButton {
+    padding: 4px 18px;
+    min-height: 28px;
+    border: 1px solid rgba(26, 55, 95, 0.1);
+    cursor: pointer;
+  }
+  
+  .filterButtonActive {
+    background-color: rgba(26, 55, 95, 1);
+    color: #fff;
+  }
+  
+  .mainContent {
+    padding: 46px 24px;
+  }
+  
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .filterGroup {
+    display: flex;
+    align-items: center;
+  }
+  
+  .separator {
+    width: 1px;
+    height: 28px;
+    border: 1px solid rgba(26, 55, 95, 1);
+  }
+  
+  .dateRange {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .dateSelector {
+    width: 120px;
+  }
+  
+  .dateSelectorContent {
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border: 1px solid rgba(26, 55, 95, 1);
+  }
+  
+  .calendarIcon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .compareButton {
+    display: flex;
+    gap: 8px;
+    padding: 6px 12px;
+    border: 1px solid rgba(185, 31, 70, 1);
+    border-radius: 6px;
+    color: rgba(185, 31, 70, 1);
+    text-transform: uppercase;
+  }
+  
+  .chartInfo {
+    display: flex;
+    margin-top: 24px;
+    gap: 6px;
+    color: rgba(26, 55, 95, 1);
+  }
+  
+  .chartImage {
+    width: 100%;
+    margin-top: 24px;
+  }
+  
+  .legend {
+    display: flex;
+    margin-top: 24px;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  
+  .legendItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .legendColor {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+  }
+  
+  .divider {
+    height: 2px;
+    background-color: rgba(0, 0, 0, 1);
+  }
+  
+  .footer {
+    background-color: rgba(243, 245, 247, 1);
+    border-radius: 0 0 32px 32px;
+    padding: 17px 24px;
+    border-top: 1px solid rgba(26, 55, 95, 0.3);
+    
+  }
+  
+  .actionButtons {
+    display: flex;
+    gap: 24px;
+  }
+  
+  .chartButton {
+    background-color: #fff;
+    border: 1px solid rgba(26, 55, 95, 1);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .chartButtonContent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .chartButtonIcon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  @media (max-width: 991px) {
+    .mainContent {
+      padding: 46px 20px;
+    }
+    
+    .footer {
+      padding: 17px 20px;
+    }
+    
+    .chartImage {
+      max-width: 100%;
+    }
+  }

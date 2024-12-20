@@ -113,11 +113,16 @@ import styles from "./Table.module.css";
 
 const TABLE_HEAD = ["Date", "State", "Commodity", "Price (₹)", "Change (₹)"];
 
-// Function to calculate the change and map it to filteredData
-const calculatePriceChange = (filteredData) => {
-  // Access the actual array inside filteredData
-  const dataArray = filteredData?.data || [];
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
 
+// Function to calculate the change and map it to filteredData
+const calculatePriceChange = (dataArray) => {
   if (!Array.isArray(dataArray) || dataArray.length === 0) {
     return [];
   }
@@ -128,9 +133,9 @@ const calculatePriceChange = (filteredData) => {
       return { ...data, change: "N/A" };
     }
 
-    // Calculate change based on modal_price (or adjust if using a different price field)
-    const previousPrice = array[index - 1].modal_price;
-    const currentPrice = data.modal_price;
+    // Calculate change based on avg_modal_price
+    const previousPrice = array[index - 1].avg_modal_price; // Adjusted to use avg_modal_price
+    const currentPrice = data.avg_modal_price;
     const priceChange = currentPrice - previousPrice;
 
     // Format the change with a "+" or "-" and two decimal points
@@ -144,20 +149,20 @@ const calculatePriceChange = (filteredData) => {
 };
 
 const Table = ({ filteredData }) => {
-  // Check if filteredData and filteredData.data exist
-  const dataArray = filteredData?.data || [];
+  // Directly use filteredData as the data array
+  const dataArray = filteredData.priceData || [];
+  console.log("inside table", dataArray);
 
   // Ensure there is at least one entry in the data array
   const latestEntry = dataArray.length > 0 ? dataArray[0] : null;
-
+  
   // Set default values if no data is available
-  const latestPrice = latestEntry?.modal_price || "N/A"; // Get the latest modal_price
+  const latestPrice = latestEntry?.avg_modal_price || "N/A"; // Get the latest avg_modal_price
   const selectedCommodity = latestEntry?.commodity_name || "Commodity"; // Adjust to commodity_name
   const latestDate = latestEntry?.date || "N/A"; // Get the latest date
 
   return (
-    <Card className={styles.tableContainer} >
-      {/* //"p-6 shadow-lg"> */}
+    <Card className={styles.tableContainer}>
       <div className="mb-4">
         <Typography variant="h5" className="font-bold">
           {selectedCommodity} (India)
@@ -194,17 +199,17 @@ const Table = ({ filteredData }) => {
           </tr>
         </thead>
         <tbody>
-          {calculatePriceChange(filteredData).map((data, index) => (
+          {calculatePriceChange(dataArray).map((data, index) => (
             <tr
               key={index}
               className={`${
                 index % 2 === 0 ? "bg-white" : "bg-gray-50"
               } border-b border-gray-200`}
             >
-              <td className="p-3 text-gray-800">{data.date}</td>
-              <td className="p-3 text-gray-800">{data.state_name}</td>
+              <td className="p-3 text-gray-800">{formatDate(data.date)}</td>
+              <td className="p-3 text-gray-800">{data.district_name || data.state_name}</td> {/* Use district_name as state was not provided in the data structure */}
               <td className="p-3 text-gray-800">{data.commodity_name}</td>
-              <td className="p-3 text-gray-800">₹{data.modal_price}</td>
+              <td className="p-3 text-gray-800">₹{data.avg_modal_price}</td> {/* Adjusted to avg_modal_price */}
               <td
                 className={`p-3 ${
                   data.change && data.change.includes("+")

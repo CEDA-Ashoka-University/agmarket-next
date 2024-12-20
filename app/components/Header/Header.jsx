@@ -16,8 +16,8 @@ export default function Header({ title = null, description = null }) {
       <div className={styles.ecometerHeadingContainer}>
         <EcometerIcon />
         <div className={styles.ecometerHeadingh1}>
-          <h1>Ecometer Dashboard</h1>
-          <p className={styles.ecometerHeadingp}>India’s economy simplified through charts</p>
+          <h1>Agri-Market Data</h1>
+          <p className={styles.ecometerHeadingp}>India’s agriculturual market unveiled through data</p>
         </div>
       </div>
       <a href={process.env.VITE_ECOMETER_CLOSE_LINK}>
