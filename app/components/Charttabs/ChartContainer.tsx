@@ -5,9 +5,10 @@ import styles from "./Charts.module.css";
 import { ChartButton } from "./ChartButton";
 import LineChart1 from "./LineChart1";
 import { PriceData } from "./types";
-import Maps from "./Maps/Maps"
+// import Maps from "./Maps/Maps"
 import HeatMap from "./Maps/HeatMap"
-import {Tooltip} from "react-tooltip";
+// import {Tooltip} from "react-tooltip";
+import TopoJsonMap from "./Maps/TopoJsonMap";
 
 
 interface ChartContainerProps {
@@ -100,7 +101,8 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
           {/* < Maps setTooltipContent={setContent} />
       <Tooltip>{content}</Tooltip>
       {content} */}
-          < HeatMap heatMapData={heatMapData}/>
+          {/* < HeatMap heatMapData={heatMapData}/> */}
+          <TopoJsonMap stateCode={23}/>
           
         </div>
       </div>
