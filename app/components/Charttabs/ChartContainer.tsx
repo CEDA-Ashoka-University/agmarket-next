@@ -101,8 +101,8 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
           {/* < Maps setTooltipContent={setContent} />
       <Tooltip>{content}</Tooltip>
       {content} */}
-          {/* < HeatMap heatMapData={heatMapData}/> */}
-          <TopoJsonMap stateCode={23}/>
+          < HeatMap heatMapData={heatMapData}/>
+          {/* <TopoJsonMap stateCode={23}/> */}
           
         </div>
       </div>
