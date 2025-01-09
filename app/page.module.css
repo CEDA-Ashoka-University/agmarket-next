@@ -36,7 +36,7 @@
 }
 
 .chartViewWrapper {
-  width: 66.67%; /* 4/6 */
+  width:auto;/*66.67%; 4/6 */
   background-color: white;
   /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
   height: 641px;

@@ -1,19 +1,22 @@
 
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Charts.module.css";
 import { ChartButton } from "./ChartButton";
 import LineChart1 from "./LineChart1";
-import { PriceData } from "./types";
+import { PriceData, QtyData } from "./types";
 // import Maps from "./Maps/Maps"
 import HeatMap from "./Maps/HeatMap"
 // import {Tooltip} from "react-tooltip";
 import TopoJsonMap from "./Maps/TopoJsonMap";
+import MapWithFilter from "./Maps/filterMap";
 
 
 interface ChartContainerProps {
   priceDataWithChange: PriceData[];
-  qtyDataWithChange: any[]; // Replace `any[]` with the correct type if known
+  qtyDataWithChange: QtyData[];
+  filteredMapData: any[]; // Replace `any[]` with the correct type if known
+  stateFilter: number;
 }
 const mockData: PriceData[] = [
   {
@@ -53,17 +56,26 @@ const heatMapData = [
 ];
 export const ChartContainer: React.FC<ChartContainerProps> = ({
     priceDataWithChange,
-    qtyDataWithChange
+    qtyDataWithChange,
+    filteredMapData,
+    stateFilter
   }) => {
-    const [data] = useState<PriceData[]>(priceDataWithChange);
-    console.log("inside chart container",priceDataWithChange)
-  //   return 
-  const [content, setContent] = useState("");
 
-// export const ChartContainer: React.FC = (
-  
-// ) => {
   const [openTab, setOpenTab] = useState(1);
+  const [data, setData] = useState(filteredMapData || []);
+  const [pricedata,setPriceData] = useState(priceDataWithChange||[])
+
+  useEffect(() => {
+    setData(filteredMapData);
+  }, [filteredMapData]);
+
+  useEffect(()=>{
+    setPriceData(priceDataWithChange);
+  },[priceDataWithChange]);
+
+  
+  console.log("price data inside chartcontainer",filteredMapData)
+  
 
   return (
     <div >
@@ -74,8 +86,8 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
             role="tab"
             tabIndex={0}
             aria-selected={openTab === index + 1}
-            className={`px-5 py-1 text-center rounded-md ${
-              openTab === index + 1 ? "bg-blue-950 text-white" : " bg-white text-blue-950 border border-blue-950"
+            className={`px-5 py-1 text-center rounded-md -mt-5 ${
+              openTab === index + 1 ? "bg-blue-950 text-white " : " bg-white text-blue-950 border border-blue-950"
             }`}
             onClick={() => setOpenTab(index + 1)}
           >
@@ -91,18 +103,14 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
         {/* Timeseries Tab */}
         <div className={openTab === 1 ? "block" : "hidden"}>
           <div className={styles.chartWrapper}>
-            <LineChart1 PriceData={priceDataWithChange} />
+            <LineChart1 PriceData={priceDataWithChange} QtyData = {qtyDataWithChange} />
           </div>
         </div>
 
         {/* Heatmap Tab */}
         <div className={openTab === 2 ? "block" : "hidden"}>
-          <p className={styles.placeholder}>Heatmap will appear here.</p>
-          {/* < Maps setTooltipContent={setContent} />
-      <Tooltip>{content}</Tooltip>
-      {content} */}
-          < HeatMap heatMapData={heatMapData}/>
-          {/* <TopoJsonMap stateCode={23}/> */}
+        
+          <TopoJsonMap initialMapData={filteredMapData} stateCode = {stateFilter} />
           
         </div>
       </div>

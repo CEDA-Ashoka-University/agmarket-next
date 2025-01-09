@@ -30,7 +30,7 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border: 1px solid #d1d5db; /*Tailwind's border-gray-300 */
     position: relative;
-    margin-top: -15px;
+    margin-top: -18px;
     z-index: 0;
     height: 617px;
     

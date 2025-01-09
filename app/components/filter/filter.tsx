@@ -45,6 +45,18 @@ const Filter: React.FC<FilterProps> = ({
   const [categoryFilter, setCategoryFilter] = useState<string>("");
   const [availableDistricts, setAvailableDistricts] = useState<{ district_id: number; district_name: string }[]>([]);
 
+    // Set default values here
+    useEffect(() => {
+      setCategoryFilter("1");
+
+      setStateFilter("0"); // Default: All India
+      setCommodityFilter("1"); // Default: Wheat commodity selected
+      setDistrictFilter("0"); // Default: All Districts
+      setStartDate("2024-01-01"); // Default: 90 days ago
+      setEndDate(new Date().toISOString().split("T")[0]); // Default: Today
+      setCalculationTypeFilter("monthly"); // Default: Daily calculation
+    }, [setStateFilter, setCommodityFilter, setDistrictFilter, setStartDate, setEndDate, setCalculationTypeFilter]);
+  
 
   useEffect(() => {
     async function fetchFilterOptions() {
@@ -138,6 +150,7 @@ const Filter: React.FC<FilterProps> = ({
             onChange={(e) => setStateFilter(e.target.value)}
           >
             <option value="">Select a state</option>
+            <option value="0"> All India</option>
             {availableStates.map((state) => (
               <option key={state.state_id} value={state.state_id.toString()}>
                 {state.state_name}

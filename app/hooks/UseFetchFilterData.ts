@@ -12,12 +12,12 @@ interface FilterProps {
 }
 
 export const useFetchFilteredData = ({
-  stateFilter,
-  commodityFilter,
+  stateFilter="0",
+  commodityFilter="1",
   districtFilter,
-  startDate,
+  startDate="2024-08-01",
   endDate,
-  calculationType,
+  calculationType="monthly",
 }: FilterProps) => {
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
