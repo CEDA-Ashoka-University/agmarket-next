@@ -21,7 +21,7 @@ interface FilterProps {
   // setDistrictFilter: React.Dispatch<React.SetStateAction<string>>;
   availableStates: string[];
   availableCommodities: string[];
-  availableDistricts: string[];
+  // availableDistricts: string[];
 }
 
 const Filter: React.FC<FilterProps> = ({
@@ -55,7 +55,7 @@ const Filter: React.FC<FilterProps> = ({
       setStartDate("2024-01-01"); // Default: 90 days ago
       setEndDate(new Date().toISOString().split("T")[0]); // Default: Today
       setCalculationTypeFilter("monthly"); // Default: Daily calculation
-    }, [setStateFilter, setCommodityFilter, setDistrictFilter, setStartDate, setEndDate, setCalculationTypeFilter]);
+    }, [setCategoryFilter,setStateFilter, setCommodityFilter, setDistrictFilter, setStartDate, setEndDate, setCalculationTypeFilter]);
   
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const Filter: React.FC<FilterProps> = ({
       try {
         const res = await fetch(`/api/all`);
         const data = await res.json();
-        console.log("inside filter data", data);
+        // console.log("inside filter data", data);
         setAvailableStates(data.states || []);
         setAvailableCategories(data.categories || []);
         setAvailableCommodities(data.commodities || []);

@@ -34,7 +34,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
     const mapData = filteredMapData;
     const cats = [...new Set(mapData.map((q) => q.month || q.date))];
 
-    console.log("Unique categories (cats):", cats);
+    // console.log("Unique categories (cats):", cats);
 
     // Build modal price mapping
     const modalPriceByRegion = {};
@@ -148,7 +148,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
     const updatedData = initialMapData?.data?.filter(
       (item) => (item.month || item.date) === selectedValue
     );
-    console.log("updatedhandelData",updatedData)
+    // console.log("updatedhandelData",updatedData)
     setFilteredMapData(updatedData || []);
   };
 

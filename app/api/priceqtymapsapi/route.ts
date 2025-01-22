@@ -224,8 +224,7 @@ export async function POST(req: NextRequest) {
       PriceQuery = prisma.$queryRaw`
       SELECT 
         DATE_FORMAT(p.date, '%Y-%m-%d') AS date, 
-        p.district_id, 
-        
+        md.district_id, 
         Round(AVG(p.modal_price),2) AS ModalPrice, 
         md.district_name,
         ms.state_name,
@@ -252,39 +251,70 @@ export async function POST(req: NextRequest) {
       `;
     }
 
-    // Daily India-Level Data
-    else if (calculation_type === "daily" && state_id==="0") {
-      PriceQuery = prisma.$queryRaw`
-        SELECT 
-          DATE_FORMAT(p.date, '%Y-%m-%d') AS date, ms.state_id, 
-          Round(AVG(p.modal_price),2) AS ModalPrice, 
-          ms.state_name,
-          mc.commodity_disp_name as commodity_name
-        FROM 
-          agmarknet.price p
-        JOIN 
-          agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
-        JOIN 
-          agmarknet.master_states ms ON ms.state_id = tsd.state_id
-                  JOIN
-        agmarknet.master_commodities mc on mc.commodity_id = p.commodity_id
-        WHERE 
-          p.commodity_id = ${Number(commodity_id)} 
-                      AND p.date >= ${new Date(start_date)}
-            AND p.date <= ${new Date(end_date)}
-        GROUP BY 
-          p.date, ms.state_id, ms.state_name
-        ORDER BY 
-          ModalPrice DESC
-        ;
-      `;
-    }
+    // // Daily India-Level Data state view
+    // else if (calculation_type === "daily" && state_id==="0") {
+    //   PriceQuery = prisma.$queryRaw`
+    //     SELECT 
+    //       DATE_FORMAT(p.date, '%Y-%m-%d') AS date, ms.state_id, 
+    //       Round(AVG(p.modal_price),2) AS ModalPrice, 
+    //       ms.state_name,
+    //       mc.commodity_disp_name as commodity_name
+    //     FROM 
+    //       agmarknet.price p
+    //     JOIN 
+    //       agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
+    //     JOIN 
+    //       agmarknet.master_states ms ON ms.state_id = tsd.state_id
+    //               JOIN
+    //     agmarknet.master_commodities mc on mc.commodity_id = p.commodity_id
+    //     WHERE 
+    //       p.commodity_id = ${Number(commodity_id)} 
+    //                   AND p.date >= ${new Date(start_date)}
+    //         AND p.date <= ${new Date(end_date)}
+    //     GROUP BY 
+    //       p.date, ms.state_id, ms.state_name
+    //     ORDER BY 
+    //       ModalPrice DESC
+    //     ;
+    //   `;
+    // }
 
+        // Daily India-Level Data district view
+        else if (calculation_type === "daily" && state_id==="0") {
+          PriceQuery = prisma.$queryRaw`
+            SELECT 
+              DATE_FORMAT(p.date, '%Y-%m-%d') AS date, 
+              md.district_id, 
+              Round(AVG(p.modal_price),2) AS ModalPrice, 
+              md.district_name,
+              ms.state_name,
+              mc.commodity_disp_name as commodity_name
+            FROM 
+              agmarknet.price p
+            JOIN 
+              agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
+            JOIN 
+              agmarknet.master_states ms ON ms.state_id = tsd.state_id
+                      JOIN
+              agmarknet.master_district md on md.district_id = p.district_id
+            JOIN
+            agmarknet.master_commodities mc on mc.commodity_id = p.commodity_id
+            WHERE 
+              p.commodity_id = ${Number(commodity_id)} 
+                          AND p.date >= ${new Date(start_date)}
+                AND p.date <= ${new Date(end_date)}
+            GROUP BY 
+              p.date, md.district_id, md.district_name
+            ORDER BY 
+              ModalPrice DESC
+            ;
+          `;
+        }
     // Monthly State-Level Data
     else if (calculation_type === "monthly" &&  state_id!=="0") {
       PriceQuery = prisma.$queryRaw`
         SELECT 
-          DATE_FORMAT(p.date, '%Y-%m-01') AS month, 
+          DATE_FORMAT(p.date, '%m-%Y') AS month, 
           p.district_id, 
           Round(AVG(p.modal_price),2) AS ModalPrice, 
           md.district_name,
@@ -313,12 +343,40 @@ export async function POST(req: NextRequest) {
     }
 
     // Monthly National-Level Data
+    // else if (calculation_type === "monthly" && state_id==="0") {
+    //   PriceQuery = prisma.$queryRaw`
+    //     SELECT 
+    //       DATE_FORMAT(p.date, '%m-%Y') AS month, 
+    //       ms.state_id, 
+    //       Round(AVG(p.modal_price),2) AS ModalPrice, 
+    //       ms.state_name,
+    //       mc.commodity_disp_name as commodity_name
+    //     FROM 
+    //       agmarknet.price p
+    //     JOIN 
+    //       agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
+    //     JOIN 
+    //       agmarknet.master_states ms ON ms.state_id = tsd.state_id
+    //               JOIN
+    //     agmarknet.master_commodities mc on mc.commodity_id = p.commodity_id
+    //     WHERE 
+    //       p.commodity_id = ${Number(commodity_id)} 
+    //       AND p.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
+    //     GROUP BY 
+    //       month, ms.state_id, ms.state_name
+    //     ORDER BY 
+    //       ModalPrice DESC
+    //     ;
+    //   `;
+    // }
+      // naltional monthly view district view
     else if (calculation_type === "monthly" && state_id==="0") {
       PriceQuery = prisma.$queryRaw`
         SELECT 
-          DATE_FORMAT(p.date, '%Y-%m-01') AS month, 
-          ms.state_id, 
+          DATE_FORMAT(p.date, '%m-%Y') AS month, 
+          md.district_id, 
           Round(AVG(p.modal_price),2) AS ModalPrice, 
+          md.district_name,
           ms.state_name,
           mc.commodity_disp_name as commodity_name
         FROM 
@@ -326,6 +384,8 @@ export async function POST(req: NextRequest) {
         JOIN 
           agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
         JOIN 
+        agmarknet.master_district md on md.district_id = p.district_id
+        Join
           agmarknet.master_states ms ON ms.state_id = tsd.state_id
                   JOIN
         agmarknet.master_commodities mc on mc.commodity_id = p.commodity_id
@@ -333,7 +393,7 @@ export async function POST(req: NextRequest) {
           p.commodity_id = ${Number(commodity_id)} 
           AND p.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
         GROUP BY 
-          month, ms.state_id, ms.state_name
+          month, md.district_id, md.district_name
         ORDER BY 
           ModalPrice DESC
         ;
@@ -341,13 +401,70 @@ export async function POST(req: NextRequest) {
     }
 
     // Yearly State-Level Data
-    else if (calculation_type === "yearly" &&  state_id==="0") {
+    // else if (calculation_type === "yearly" &&  state_id!=="0") {
+    //   PriceQuery = prisma.$queryRaw`
+    //     SELECT 
+    //       YEAR(p.date) AS year, 
+    //       p.district_id, 
+    //       md.district_name, 
+    //       Round(AVG(p.modal_price),2) AS ModalPrice,
+    //       mc.commodity_disp_name as commodity_name
+    //     FROM 
+    //       agmarknet.price p
+    //     JOIN 
+    //       agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
+    //     JOIN 
+    //       agmarknet.master_district md ON md.district_id = tsd.district_id
+    //     JOIN
+    //     agmarknet.master_commodities mc on mc.commodity_id = p.commodity_id
+    //     WHERE 
+    //       p.commodity_id = ${Number(commodity_id)} 
+    //       AND tsd.state_id = ${Number(state_id)}
+    //       AND p.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
+    //     GROUP BY 
+    //       year, p.district_id,md.district_name
+    //     ORDER BY 
+    //       ModalPrice DESC
+    //     ;
+    //   `;
+    // }
+
+    // yearly national
+    // else if (calculation_type === "yearly" && state_id==="0") {
+    //   PriceQuery = prisma.$queryRaw`
+    //     SELECT 
+    //       DATE_FORMAT(p.date, '%Y') AS year, 
+    //       ms.state_id, 
+    //       Round(AVG(p.modal_price),2) AS ModalPrice, 
+    //       ms.state_name,
+    //       mc.commodity_disp_name as commodity_name
+    //     FROM 
+    //       agmarknet.price p
+    //     JOIN 
+    //       agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
+    //     JOIN 
+    //       agmarknet.master_states ms ON ms.state_id = tsd.state_id
+    //               JOIN
+    //     agmarknet.master_commodities mc on mc.commodity_id = p.commodity_id
+    //     WHERE 
+    //       p.commodity_id = ${Number(commodity_id)} 
+    //       AND p.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
+    //     GROUP BY 
+    //       year, ms.state_id, ms.state_name
+    //     ORDER BY 
+    //       ModalPrice DESC
+    //     ;
+    //   `;
+    // }
+    // yearly state
+    else if (calculation_type === "yearly" &&  state_id!=="0") {
       PriceQuery = prisma.$queryRaw`
         SELECT 
-          YEAR(p.date) AS year, 
+          DATE_FORMAT(p.date, '%Y') AS year, 
           p.district_id, 
-          md.district_name, 
-          Round(AVG(p.modal_price),2) AS ModalPrice,
+          Round(AVG(p.modal_price),2) AS ModalPrice, 
+          md.district_name,
+          ms.state_name,
           mc.commodity_disp_name as commodity_name
         FROM 
           agmarknet.price p
@@ -355,6 +472,8 @@ export async function POST(req: NextRequest) {
           agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
         JOIN 
           agmarknet.master_district md ON md.district_id = tsd.district_id
+        JOIN
+          agmarknet.master_states ms on ms.state_id = tsd.state_id
                   JOIN
         agmarknet.master_commodities mc on mc.commodity_id = p.commodity_id
         WHERE 
@@ -362,19 +481,20 @@ export async function POST(req: NextRequest) {
           AND tsd.state_id = ${Number(state_id)}
           AND p.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
         GROUP BY 
-          year, p.district_id,md.district_name, 
+          year, p.district_id
         ORDER BY 
           ModalPrice DESC
         ;
       `;
     }
 
-    // Yearly National-Level Data
+     // Yearly National-Level Data
     else if (calculation_type === "yearly" && state_id==="0") {
       PriceQuery = prisma.$queryRaw`
         SELECT 
-          YEAR(p.date) AS year, 
-          ms.state_id, 
+          DATE_FORMAT(p.date, '%Y') AS year, 
+          md.district_id, 
+          md.district_name,
           ms.state_name, 
           Round(AVG(p.modal_price),2) AS ModalPrice,
           mc.commodity_disp_name as commodity_name
@@ -383,6 +503,8 @@ export async function POST(req: NextRequest) {
         JOIN 
           agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
         JOIN 
+        agmarknet.master_district md on md.district_id = p.district_id
+        JOIN
           agmarknet.master_states ms ON ms.state_id = tsd.state_id
                   JOIN
         agmarknet.master_commodities mc on mc.commodity_id = p.commodity_id
@@ -390,12 +512,41 @@ export async function POST(req: NextRequest) {
           p.commodity_id = ${Number(commodity_id)} 
           AND p.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
         GROUP BY 
-          year, ms.state_id, ms.state_name
+          year, md.district_id, md.district_name
         ORDER BY 
           ModalPrice DESC
         ;
       `;
     }
+
+
+    // // Yearly National-Level Data
+    // else if (calculation_type === "yearly" && state_id==="0") {
+    //   PriceQuery = prisma.$queryRaw`
+    //     SELECT 
+    //       YEAR(p.date) AS year, 
+    //       ms.state_id, 
+    //       ms.state_name, 
+    //       Round(AVG(p.modal_price),2) AS ModalPrice,
+    //       mc.commodity_disp_name as commodity_name
+    //     FROM 
+    //       agmarknet.price p
+    //     JOIN 
+    //       agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
+    //     JOIN 
+    //       agmarknet.master_states ms ON ms.state_id = tsd.state_id
+    //               JOIN
+    //     agmarknet.master_commodities mc on mc.commodity_id = p.commodity_id
+    //     WHERE 
+    //       p.commodity_id = ${Number(commodity_id)} 
+    //       AND p.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
+    //     GROUP BY 
+    //       year, ms.state_id, ms.state_name
+    //     ORDER BY 
+    //       ModalPrice DESC
+    //     ;
+    //   `;
+    // }
 
     ///// Quantity data
     // Daily State-Level Data
@@ -404,7 +555,6 @@ export async function POST(req: NextRequest) {
       SELECT 
         DATE_FORMAT(q.date, '%Y-%m-%d') AS date, 
         q.district_id, 
-        
         Round(SUM(q.quantity),2) AS total_quantity, 
         md.district_name,
         ms.state_name,
@@ -431,13 +581,42 @@ export async function POST(req: NextRequest) {
       `;
     }
 
-    // Daily India-Level Data
-    else if (calculation_type === "daily" && state_id==="0") {
+    // Daily India-Level Data state view
+    // else if (calculation_type === "daily" && state_id==="0") {
+    //   QuantityQuery = prisma.$queryRaw`
+    //     SELECT 
+    //       DATE_FORMAT(q.date, '%Y-%m-%d') AS date, ms.state_id, 
+    //       Round(SUM(q.quantity),2) AS total_quantity, 
+    //       ms.state_name,
+    //       mc.commodity_disp_name as commodity_name
+    //     FROM 
+    //       agmarknet.quantity q
+    //     JOIN 
+    //       agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id
+    //     JOIN 
+    //       agmarknet.master_states ms ON ms.state_id = tsd.state_id
+    //               JOIN
+    //     agmarknet.master_commodities mc on mc.commodity_id = q.commodity_id
+    //     WHERE 
+    //       q.commodity_id = ${Number(commodity_id)} 
+    //                   AND q.date >= ${new Date(start_date)}
+    //         AND q.date <= ${new Date(end_date)}
+    //     GROUP BY 
+    //       q.date, ms.state_id
+    //     ORDER BY 
+    //       total_quantity DESC
+    //     ;
+    //   `;
+    // }
+
+     // Daily India-Level Data district view
+     else if (calculation_type === "daily" && state_id==="0") {
       QuantityQuery = prisma.$queryRaw`
         SELECT 
-          DATE_FORMAT(q.date, '%Y-%m-%d') AS date, ms.state_id, 
+          DATE_FORMAT(q.date, '%Y-%m-%d') AS date, md.district_id, 
           Round(SUM(q.quantity),2) AS total_quantity, 
-          ms.state_name,
+          md.district_name,
+           ms.state_name,
           mc.commodity_disp_name as commodity_name
         FROM 
           agmarknet.quantity q
@@ -446,13 +625,15 @@ export async function POST(req: NextRequest) {
         JOIN 
           agmarknet.master_states ms ON ms.state_id = tsd.state_id
                   JOIN
+          agmarknet.master_district md on md.district_id = q.district_id
+          JOIN
         agmarknet.master_commodities mc on mc.commodity_id = q.commodity_id
         WHERE 
           q.commodity_id = ${Number(commodity_id)} 
                       AND q.date >= ${new Date(start_date)}
             AND q.date <= ${new Date(end_date)}
         GROUP BY 
-          q.date, ms.state_id
+          q.date, md.district_id
         ORDER BY 
           total_quantity DESC
         ;
@@ -463,7 +644,7 @@ export async function POST(req: NextRequest) {
     else if (calculation_type === "monthly" &&  state_id!=="0") {
       QuantityQuery = prisma.$queryRaw`
         SELECT 
-          DATE_FORMAT(q.date, '%Y-%m-01') AS month, 
+          DATE_FORMAT(q.date, '%m-%Y') AS month, 
           q.district_id, 
           Round(SUM(q.quantity),2) AS total_quantity,
           md.district_name,
@@ -495,13 +676,16 @@ export async function POST(req: NextRequest) {
     else if (calculation_type === "monthly" && state_id==="0") {
       QuantityQuery = prisma.$queryRaw`
         SELECT 
-          DATE_FORMAT(q.date, '%Y-%m-01') AS month, 
-          ms.state_id, 
+          DATE_FORMAT(q.date, '%m-%Y') AS month, 
+          md.district_id ,
           Round(SUM(q.quantity),2) AS total_quantity,
-          ms.state_name,
+          md.district_name,
+           ms.state_name,
           mc.commodity_disp_name as commodity_name
         FROM 
           agmarknet.quantity q
+          JOIN
+          agmarknet.master_district md on md.district_id = q.district_id
         JOIN 
           agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id
         JOIN 
@@ -512,7 +696,7 @@ export async function POST(req: NextRequest) {
           q.commodity_id = ${Number(commodity_id)} 
           AND q.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
         GROUP BY 
-          month, ms.state_id
+          month, md.district_id, md.district_name
         ORDER BY 
           total_quantity DESC
         ;
@@ -520,12 +704,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Yearly State-Level Data
-    else if (calculation_type === "yearly" &&  state_id==="0") {
+    else if (calculation_type === "yearly" &&  state_id!=="0") {
       QuantityQuery = prisma.$queryRaw`
         SELECT 
-          YEAR(q.date) AS year, 
+          DATE_FORMAT(q.date, '%Y') AS year, 
           q.district_id, 
           md.district_name, 
+           ms.state_name,
           Round(SUM(q.quantity),2) AS total_quantity,
           mc.commodity_disp_name as commodity_name
         FROM 
@@ -534,6 +719,9 @@ export async function POST(req: NextRequest) {
           agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id
         JOIN 
           agmarknet.master_district md ON md.district_id = tsd.district_id
+          JOIN
+          agmarknet.master_states ms ON ms.state_id = tsd.state_id
+                  
                   JOIN
         agmarknet.master_commodities mc on mc.commodity_id = q.commodity_id
         WHERE 
@@ -541,20 +729,49 @@ export async function POST(req: NextRequest) {
           AND tsd.state_id = ${Number(state_id)}
           AND q.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
         GROUP BY 
-          year, q.district_id,md.district_name, 
+          year, q.district_id,md.district_name
         ORDER BY 
-          total_quantity DESC
+          year DESC
         ;
       `;
     }
 
-    // Yearly National-Level Data
-    else if (calculation_type === "yearly" && state_id==="0") {
+    // Yearly National-Level Data --------state View
+    // else if (calculation_type === "yearly" && state_id==="0") {
+    //   QuantityQuery = prisma.$queryRaw`
+    //     SELECT 
+    //       DATE_FORMAT(q.date, '%Y') AS year, 
+    //       ms.state_id, 
+    //       ms.state_name, 
+    //       Round(SUM(q.quantity),2) AS total_quantity,
+    //       mc.commodity_disp_name as commodity_name
+    //     FROM 
+    //       agmarknet.quantity q
+    //     JOIN 
+    //       agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id
+    //     JOIN 
+    //       agmarknet.master_states ms ON ms.state_id = tsd.state_id
+    //               JOIN
+    //     agmarknet.master_commodities mc on mc.commodity_id = q.commodity_id
+    //     WHERE 
+    //       q.commodity_id = ${Number(commodity_id)} 
+    //       AND q.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
+    //     GROUP BY 
+    //       year, ms.state_id, ms.state_name
+    //     ORDER BY 
+    //       year DESC
+    //     ;
+    //   `;
+    // }
+
+     // Yearly National-Level Data ------- district View
+     else if (calculation_type === "yearly" && state_id==="0") {
       QuantityQuery = prisma.$queryRaw`
         SELECT 
-          YEAR(q.date) AS year, 
-          ms.state_id, 
-          ms.state_name, 
+          DATE_FORMAT(q.date, '%Y') AS year, 
+          md.district_id, 
+          md.district_name, 
+           ms.state_name,
           Round(SUM(q.quantity),2) AS total_quantity,
           mc.commodity_disp_name as commodity_name
         FROM 
@@ -562,6 +779,8 @@ export async function POST(req: NextRequest) {
         JOIN 
           agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id
         JOIN 
+        agmarknet.master_district md ON md.district_id = tsd.district_id
+        JOIN
           agmarknet.master_states ms ON ms.state_id = tsd.state_id
                   JOIN
         agmarknet.master_commodities mc on mc.commodity_id = q.commodity_id
@@ -569,13 +788,13 @@ export async function POST(req: NextRequest) {
           q.commodity_id = ${Number(commodity_id)} 
           AND q.date BETWEEN ${new Date(start_date)} AND ${new Date(end_date)}
         GROUP BY 
-          year, ms.state_id, ms.state_name
+          year, md.district_id, 
+          md.district_name
         ORDER BY 
-          total_quantity DESC
+          year DESC
         ;
       `;
     }
-
 
     const priceData = PriceQuery ? await PriceQuery : [];
     const quantityData = QuantityQuery ? await QuantityQuery : [];

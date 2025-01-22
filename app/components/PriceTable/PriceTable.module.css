@@ -49,7 +49,7 @@
 .priceValue {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 1px;
 }
 
 .amount {
@@ -158,7 +158,6 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  text-size: sm;
   color: #84cc16; /* lime-700 */
 }
 

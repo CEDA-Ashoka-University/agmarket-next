@@ -1,6 +1,6 @@
 // hooks/useFetchFilteredData.ts
 import { useEffect, useState } from "react";
-import { DataEntry } from "../types";
+import { PriceData, QuantityData } from "../components/PriceTable/Types";
 
 interface FilterProps {
   stateFilter: string;
@@ -9,6 +9,16 @@ interface FilterProps {
   startDate: string;
   endDate: string;
   calculationType:string;
+}
+// interface FilteredData {
+//   priceData: DataEntry[];
+//   quantityData: DataEntry[];
+// }
+
+
+interface FilteredData {
+  priceData: PriceData[];  // Change type to PriceData
+  quantityData: QuantityData[];  // Change type to QuantityData
 }
 
 export const useFetchFilteredData = ({
@@ -19,7 +29,10 @@ export const useFetchFilteredData = ({
   endDate,
   calculationType="monthly",
 }: FilterProps) => {
-  const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
+  const [filteredData, setFilteredData] = useState<FilteredData>({
+    priceData: [],
+    quantityData: [],
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -52,7 +65,7 @@ export const useFetchFilteredData = ({
         if (!res.ok) throw new Error(`Failed to fetch data: ${res.statusText}`);
         const data = await res.json();
         setFilteredData(data);
-        console.log("data:",data.priceData)
+        // console.log("data:",data.priceData)
       } catch (error) {
         console.error("Error fetching filtered data:", error);
       } finally {
