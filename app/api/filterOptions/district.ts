@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     // Fetch districts corresponding to the selected state
     const districts = await prisma.master_district.findMany({
       where: {
-        trans_state_district: {
+        trans_state_district_UI: {
           some: {
             state_id: Number(stateId),
           },

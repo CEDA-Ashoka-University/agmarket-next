@@ -596,9 +596,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.price p
           JOIN 
-            agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
           WHERE 
@@ -623,9 +623,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.price p  
           JOIN 
-            agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
           WHERE 
@@ -648,9 +648,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.price p  
           JOIN 
-            agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
           WHERE 
@@ -682,9 +682,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.price p
           JOIN 
-            agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
           WHERE 
@@ -712,9 +712,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.price p  
           JOIN 
-            agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
           WHERE 
@@ -740,9 +740,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.price p  
           JOIN 
-            agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
           WHERE 
@@ -771,7 +771,7 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.price p
           JOIN 
-            agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
+            agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON p.district_id = md.district_id
           JOIN
@@ -801,7 +801,7 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.price p
           JOIN 
-            agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
+            agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON p.district_id = md.district_id
           JOIN
@@ -830,7 +830,7 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.price p
           JOIN 
-            agmarknet.trans_state_district tsd ON p.district_id = tsd.district_id
+            agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON p.district_id = md.district_id
           JOIN
@@ -861,9 +861,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.quantity q
           JOIN 
-            agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = q.commodity_id
           WHERE 
@@ -884,9 +884,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.quantity q
           JOIN 
-            agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = q.commodity_id
           WHERE 
@@ -907,9 +907,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.quantity q
           JOIN 
-            agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN 
             agmarknet.master_commodities mc ON mc.commodity_id = q.commodity_id
           WHERE 
@@ -937,9 +937,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.quantity q
           JOIN 
-            agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = q.commodity_id
           WHERE 
@@ -965,9 +965,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.quantity q
           JOIN 
-            agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = q.commodity_id
           WHERE 
@@ -991,9 +991,9 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.quantity q
           JOIN 
-            agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id 
+            agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id 
           JOIN 
-            agmarknet.master_states ms ON ms.state_id = tsd.state_id
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN 
             agmarknet.master_commodities mc ON mc.commodity_id = q.commodity_id
           WHERE 
@@ -1020,7 +1020,7 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.quantity q
           JOIN 
-            agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id
+            agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON q.district_id = md.district_id
           JOIN
@@ -1049,7 +1049,7 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.quantity q
           JOIN 
-            agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id
+            agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON q.district_id = md.district_id
           JOIN
@@ -1075,7 +1075,7 @@ export async function POST(req: NextRequest) {
           FROM 
             agmarknet.quantity q
           JOIN 
-            agmarknet.trans_state_district tsd ON q.district_id = tsd.district_id
+            agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON q.district_id = md.district_id
           JOIN
