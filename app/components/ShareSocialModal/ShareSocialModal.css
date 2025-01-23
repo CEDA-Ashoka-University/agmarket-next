@@ -1,0 +1,17 @@
+.modalHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+  }
+
+  .modalHeader svg {
+    cursor: pointer;
+  }
+
+  .ShareSocialIcon {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }

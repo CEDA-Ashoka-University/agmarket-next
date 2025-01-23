@@ -33,7 +33,8 @@ model api_violators {
   ip_address         String           @db.VarChar(50)
   permaban           Boolean          @default(false)
   permaban_timestamp DateTime?        @db.DateTime(0)
-  api_violations     api_violations[] 
+  api_violations     api_violations[]
+
   @@ignore
 }
 
@@ -41,26 +42,30 @@ model master_commodities {
   commodity_id        Int              @id
   commodity_name      String           @db.VarChar(200)
   commodity_disp_name String?          @db.VarChar(100)
+  category_id         Int?
   price               price[]
   quantity            quantity[]
-  raw_prices          raw_prices[]
-  raw_quantities      raw_quantities[]
+  raw_prices          raw_prices[]     @ignore
+  raw_quantities      raw_quantities[] @ignore
 }
 
 model master_district {
-  district_id          Int                    @id
-  district_name        String                 @db.VarChar(100)
-  price                price[]
-  quantity             quantity[]
-  raw_prices           raw_prices[]
-  raw_quantities       raw_quantities[]
-  trans_state_district trans_state_district[]
+  district_id             Int                       @id
+  district_name           String                    @db.VarChar(100)
+  price                   price[]
+  quantity                quantity[]
+  raw_prices              raw_prices[]              @ignore
+  raw_quantities          raw_quantities[]          @ignore
+  trans_state_district    trans_state_district[]    @ignore
+  trans_state_district_UI trans_state_district_UI[]
 }
 
 model master_states {
   state_id             Int                    @id
   state_name           String                 @db.VarChar(100)
   trans_state_district trans_state_district[]
+
+  @@ignore
 }
 
 model price {
@@ -125,6 +130,7 @@ model raw_prices {
   @@index([census_district_id], map: "raw_prices_FK_1")
   @@index([census_state_id, commodity_id, date], map: "raw_prices_census_state_id_IDX")
   @@index([state_id, district_id, commodity_id, date], map: "raw_prices_state_id_IDX")
+  @@ignore
 }
 
 model raw_quantities {
@@ -150,18 +156,20 @@ model raw_quantities {
   @@index([census_district_id], map: "raw_quantities_FK_1")
   @@index([census_state_id, commodity_id, date], map: "raw_quantities_census_state_id_IDX")
   @@index([state_id, district_id, commodity_id, date], map: "raw_quantities_state_id_IDX")
+  @@ignore
 }
 
 model trans_state_district {
-  id              Int             @id @default(autoincrement())
-  state_id        Int
-  district_id     Int
-  area_id         Int
-  master_states   master_states   @relation(fields: [state_id], references: [state_id], onDelete: NoAction, onUpdate: NoAction, map: "trans_state_district_FK")
-  master_district master_district @relation(fields: [district_id], references: [district_id], onDelete: NoAction, onUpdate: NoAction, map: "trans_state_district_FK_1")
+  id                         Int             @id @default(autoincrement())
+  state_id                   Int
+  district_id                Int
+  area_id                    Int
+  master_states              master_states   @relation(fields: [master_statesState_id], references: [state_id]) @ignore
+  master_district            master_district @relation(fields: [master_districtDistrict_id], references: [district_id]) @ignore
+  master_statesState_id      Int
+  master_districtDistrict_id Int
 
-  @@index([state_id], map: "trans_state_district_FK")
-  @@index([district_id], map: "trans_state_district_FK_1")
+  @@ignore
 }
 
 model user {
@@ -174,4 +182,34 @@ model user {
   organisation    String        @db.VarChar(50)
   occupation      String        @db.VarChar(50)
   accesstoken     accesstoken[]
+}
+
+model master_categories {
+  category_id   Int    @id
+  category_name String @db.VarChar(255)
+}
+
+model master_commodities_UI {
+  commodity_id        Int     @id
+  commodity_name      String  @db.VarChar(200)
+  commodity_disp_name String? @db.VarChar(100)
+  category_id         Int?    @db.SmallInt
+}
+
+model master_states_UI {
+  state_id                Int                       @id
+  state_name              String                    @db.VarChar(100)
+  trans_state_district_UI trans_state_district_UI[]
+}
+
+model trans_state_district_UI {
+  id               Int              @id @default(autoincrement())
+  state_id         Int
+  district_id      Int
+  area_id          Int
+  master_states_UI master_states_UI @relation(fields: [state_id], references: [state_id], onDelete: NoAction, onUpdate: NoAction, map: "trans_state_district_UI_FK")
+  master_district  master_district  @relation(fields: [district_id], references: [district_id], onDelete: NoAction, onUpdate: NoAction, map: "trans_state_district_UI_FK_1")
+
+  @@index([state_id], map: "trans_state_district_UI_FK")
+  @@index([district_id], map: "trans_state_district_UI_FK_1")
 }
