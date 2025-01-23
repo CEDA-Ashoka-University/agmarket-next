@@ -34,7 +34,7 @@ const prisma = new PrismaClient();
 export async function GET(req: NextRequest) {
   try {
     // Fetch all states
-    const states = await prisma.master_states.findMany({
+    const states = await prisma.master_states_UI.findMany({
       select: {
         state_id: true,
         state_name: true,
