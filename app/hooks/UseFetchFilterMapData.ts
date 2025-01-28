@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {DataEntry} from "../types";
+// import {DataEntry} from "../types";
 import { filterProps } from "framer-motion";
 
 interface FilterProps{
@@ -9,6 +9,10 @@ interface FilterProps{
   startDate:string;
   endDate:string;
   calculationType:string;
+}
+
+interface DataEntry{
+  filteredData:[]
 }
 
 

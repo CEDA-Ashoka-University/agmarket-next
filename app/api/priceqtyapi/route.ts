@@ -588,7 +588,7 @@ export async function POST(req: NextRequest) {
       if (calculation_type === "yearly") {
         priceDataQuery = prisma.$queryRaw`
           SELECT 
-            DATE_FORMAT(p.date, '%Y-01-01') AS year, 
+            DATE_FORMAT(p.date,'%Y') AS year, 
             mc.commodity_name,
             Round(Round(AVG(p.modal_price),2),2) AS avg_modal_price,
             Round(Round(AVG(p.min_price),2),2) AS avg_min_price,
@@ -672,7 +672,7 @@ export async function POST(req: NextRequest) {
       if (calculation_type === "yearly") {
         priceDataQuery = prisma.$queryRaw`
           SELECT 
-            DATE_FORMAT(p.date, '%Y-01-01') AS year, 
+            DATE_FORMAT(p.date,'%Y') AS year, 
             tsd.state_id,
             ms.state_name,
             mc.commodity_name,
@@ -761,7 +761,7 @@ export async function POST(req: NextRequest) {
       if (calculation_type === "yearly") {
         priceDataQuery = prisma.$queryRaw`
           SELECT 
-            DATE_FORMAT(p.date, '%Y-01-01') AS year,
+            DATE_FORMAT(p.date,'%Y') AS year,
             tsd.district_id,
             md.district_name,
             mc.commodity_name,
@@ -855,7 +855,7 @@ export async function POST(req: NextRequest) {
       if (calculation_type === "yearly") {
         quantityDataQuery = prisma.$queryRaw`
           SELECT 
-            DATE_FORMAT(q.date, '%Y-01-01') AS year, 
+            DATE_FORMAT(q.date, '%Y') AS year, 
             mc.commodity_name,
             Round(SUM(q.quantity),2) AS total_quantity
           FROM 
@@ -929,7 +929,7 @@ export async function POST(req: NextRequest) {
       if (calculation_type === "yearly") {
         quantityDataQuery = prisma.$queryRaw`
           SELECT 
-            DATE_FORMAT(q.date, '%Y-01-01') AS year, 
+            DATE_FORMAT(q.date, '%Y') AS year, 
             tsd.state_id,
             ms.state_name,
             mc.commodity_name,
@@ -1012,7 +1012,7 @@ export async function POST(req: NextRequest) {
       if (calculation_type === "yearly") {
         quantityDataQuery = prisma.$queryRaw`
           SELECT 
-            DATE_FORMAT(q.date, '%Y-01-01') AS year,
+            DATE_FORMAT(q.date, '%Y') AS year,
             tsd.district_id,
             md.district_name,
             mc.commodity_name,

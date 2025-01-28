@@ -51,7 +51,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
         ))}
       </div>
       {/* <div className="rounded-[32px] max-w-[928px] font-sans font-medium shadow-md border border-gray-300 relative -mt-[18px] z-0 h-[617px]"> */}
-      <div className=" max-w-[928px] rounded-2xl font-sans font-medium shadow-md  relative -mt-[18px] z-0 h-[617px]">
+      <div className=" max-w-[928px] rounded-2xl font-sans font-medium  relative -mt-[18px] z-0 h-[617px]">
 
 
         {/* Tab Content */}

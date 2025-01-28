@@ -56,11 +56,11 @@ const Tabs: React.FC<TabsProps> = ({ priceDataWithChange, qtyDataWithChange, cal
     }
 
     else if (calculationType=="yearly"){
-      const [year,month] = dateString.split("-");
-      if (!year || !month) {
-        return "Invalid date"; // Ensure valid format
-      }
-      return `${year}`; // Format as MM-YYYY
+      // const [year,month] = dateString.split("-");
+      // if (!year || !month) {
+      //   return "Invalid date"; // Ensure valid format
+      // }
+      return `${dateString}`; // Format as MM-YYYY
     }
 
     return "Invalid date"; // Fallback for unsupported calculation types

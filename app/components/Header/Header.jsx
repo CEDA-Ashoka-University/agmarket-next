@@ -2,10 +2,10 @@
 
 import CedaHeaderIcon from "../../assets/icons/CedaHeaderIcon";
 import CloseIcon from "../../assets/icons/CloseIcon";
-import EcometerIcon from "../../assets/icons/EcometerIcon";
+import AgmarkIcon from "../../assets/icons/AgmarkIcon";
 
 export default function Header({ title = null, description = null }) {
-  const titleString = (title ? title + " | " : "") + "CEDA EcoMeter";
+  const titleString = (title ? title + " | " : "") + "CEDA Agmark";
   const descString = description
     ? description
     : "Handpicked indicators for the Indian Economy, explore our wide range.";
@@ -25,7 +25,7 @@ export default function Header({ title = null, description = null }) {
       </a>
 
       <div className="flex flex-row items-center flex-1 px-4 mx-4 border-l border-gray-300 gap-8 sm:flex-row sm:items-start sm:px-0 sm:mx-0 sm:gap-2 sm:border-l-0">
-        <EcometerIcon />
+        <AgmarkIcon />
         <div>
           <h1 className="font-serif text-[16px] leading-[24px] text-blue-900 sm:text-[14px] sm:leading-[20px]">
             Agri-Market Data

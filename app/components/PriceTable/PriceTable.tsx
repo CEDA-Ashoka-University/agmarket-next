@@ -39,11 +39,11 @@ export const PriceTable: React.FC<PriceTableProps> = ({
       return `${month}/${year}`; // Format as MM-YYYY
     }
     else if (calculationType=="yearly"){
-      const [year,month] = dateString.split("-");
-      if (!year || !month) {
-        return "Invalid date"; // Ensure valid format
-      }
-      return `${year}`; // Format as MM-YYYY
+      // const [year,month] = dateString.split("-");
+      // if (!year || !month) {
+        // return "Invalid date"; // Ensure valid format
+      // }
+      return `${dateString}`; // Format as MM-YYYY
     }
     
 
