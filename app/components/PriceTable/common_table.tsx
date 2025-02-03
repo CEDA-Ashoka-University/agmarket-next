@@ -102,7 +102,7 @@ const CommonTable: React.FC<CommonTableProps> = ({ data, columns }) => {
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className="px-1 py-1 text-xs font-medium text-gray-700 border border-gray-300"
+                  className="px-1 py-1 text-[12px] text-center font-medium border border-gray-300 text-gray-600"
                 >
                   {column.label}
                 </th>
@@ -120,14 +120,14 @@ const CommonTable: React.FC<CommonTableProps> = ({ data, columns }) => {
                 {columns.map((column) => (
                   <td
                     key={column.key}
-                    className={`px-4 py-2 text-sm border border-gray-300 ${
+                    className={`px-4 py-2 text-[12px] text-color-[#1A375F] border border-gray-300 ${
                       column.key === "change"
                         ? item[column.key]?.includes("+")
                           ? "text-green-600"
                           : item[column.key]?.includes("-")
                           ? "text-red-600"
-                          : "text-gray-700"
-                        : "text-gray-700"
+                          : "text-color-[#1A375F]"
+                        : "text-color-[#1A375F]"
                     }`}
                   >
                     {item[column.key] ?? "N/A"}

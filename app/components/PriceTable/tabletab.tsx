@@ -98,7 +98,7 @@ const formattedQtyData = qtyDataWithChange.map((item) => ({
 
   const priceColumns = [
     { key: "date", label: calculationType === "monthly" ? "Month" : "Date" },
-    { key: "avg_modal_price", label: "Price (₹)" },
+    { key: "avg_modal_price", label: "Modal Price (₹)" },
        { key: "avg_min_price", label: "Min Price (₹)" },
     { key: "avg_max_price", label: "Max Price (₹)" },
     { key: "change", label: "Change (₹)" },
@@ -131,7 +131,7 @@ const formattedQtyData = qtyDataWithChange.map((item) => ({
       </div>
 
       {/* Tab Content */}
-      <div className="flex-grow">
+      <div className="flex-grow p-[10px]">
         {openTab === 1 && (
           <CommonTable data={formattedPriceData} columns={priceColumns} />
         )}

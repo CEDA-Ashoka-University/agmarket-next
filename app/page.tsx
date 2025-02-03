@@ -128,6 +128,8 @@ export default function Home() {
     calculationType,
   });
 
+  console.log("inside page.tsx",filteredData)
+
   const { filteredMapData, isLoading: isMapLoading } = useFetchFilteredMapData({
     stateFilter,
     commodityFilter,
@@ -138,7 +140,7 @@ export default function Home() {
   });
 
   const isLoading = isDataLoading || isMapLoading; // Combined loading state
-
+  console.log("checking the start and end date",startDate,endDate)
   return (
     <div>
       <Header />
@@ -189,6 +191,8 @@ export default function Home() {
               qtyDataWithChange={filteredData.quantityData}
               filteredMapData={filteredMapData}
               stateFilter={Number(stateFilter)}
+              startDate = {startDate}
+              endDate={endDate}
             />
           )}
         </div>

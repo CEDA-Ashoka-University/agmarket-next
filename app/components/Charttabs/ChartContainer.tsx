@@ -9,13 +9,17 @@ interface ChartContainerProps {
   qtyDataWithChange: QuantityData[];
   filteredMapData: any[]; // Replace `any[]` with the correct type if known
   stateFilter: number;
+  startDate: string;
+  endDate:string;
 }
 
 export const ChartContainer: React.FC<ChartContainerProps> = ({
   priceDataWithChange,
   qtyDataWithChange,
   filteredMapData,
-  stateFilter
+  stateFilter,
+  startDate,
+  endDate
 }) => {
 
   const [openTab, setOpenTab] = useState(1);
@@ -60,7 +64,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
           <div className={openTab === 1 ? "block" : "hidden"}>
             <div className="rounded-[32px] max-w-[928px] font-sans font-medium h-[524px]">
               {/* <LineChart PriceData={priceDataWithChange} QtyData={qtyDataWithChange} /> */}
-              <ParentChart PriceData={priceDataWithChange} QtyData={qtyDataWithChange} />
+              <ParentChart PriceData={priceDataWithChange} QtyData={qtyDataWithChange} startsDate={startDate} endsDate={endDate}/>
             </div>
           </div>
 

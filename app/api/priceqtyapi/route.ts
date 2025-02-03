@@ -592,13 +592,18 @@ export async function POST(req: NextRequest) {
             mc.commodity_name,
             Round(Round(AVG(p.modal_price),2),2) AS avg_modal_price,
             Round(Round(AVG(p.min_price),2),2) AS avg_min_price,
-            Round(Round(AVG(p.max_price),2),2) AS avg_max_price
+            Round(Round(AVG(p.max_price),2),2) AS avg_max_price,
+            'India' AS state_name,
+            'All' As district_name,
+            'Yearly' as caculationType
           FROM 
             agmarknet.price p
           JOIN 
             agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
           JOIN 
             agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
+                  JOIN 
+        agmarknet.master_district md ON md.district_id = tsd.district_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
           WHERE 
@@ -619,12 +624,19 @@ export async function POST(req: NextRequest) {
             mc.commodity_name,
             Round(Round(AVG(p.modal_price),2),2) AS avg_modal_price,
             Round(AVG(p.min_price),2) AS avg_min_price,
-            Round(AVG(p.max_price),2) AS avg_max_price
+            Round(AVG(p.max_price),2) AS avg_max_price,
+            'India' AS state_name,
+            'All' As district_name,
+            'Monthly' as caculationType
           FROM 
             agmarknet.price p  
           JOIN 
             agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
-          JOIN 
+          
+                JOIN 
+        agmarknet.master_district md ON md.district_id = tsd.district_id
+            JOIN 
+          
             agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
@@ -644,12 +656,17 @@ export async function POST(req: NextRequest) {
             mc.commodity_name,
             Round(AVG(p.modal_price),2) AS avg_modal_price,
             Round(AVG(p.min_price),2) AS avg_min_price,
-            Round(AVG(p.max_price),2) AS avg_max_price
+            Round(AVG(p.max_price),2) AS avg_max_price,
+            'India' AS state_name,
+            'All' As district_name,
+            'Daily' as caculationType
           FROM 
             agmarknet.price p  
           JOIN 
             agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
-          JOIN 
+           JOIN 
+        agmarknet.master_district md ON md.district_id = tsd.district_id
+            JOIN 
             agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
@@ -678,12 +695,16 @@ export async function POST(req: NextRequest) {
             mc.commodity_name,
             Round(AVG(p.modal_price),2) AS avg_modal_price,
             Round(AVG(p.min_price),2) AS avg_min_price,
-            Round(AVG(p.max_price),2) AS avg_max_price
+            Round(AVG(p.max_price),2) AS avg_max_price,
+            'All' As district_name,
+            'Yearly' as caculationType
           FROM 
             agmarknet.price p
           JOIN 
             agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
-          JOIN 
+           JOIN 
+        agmarknet.master_district md ON md.district_id = tsd.district_id
+            JOIN 
             agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
@@ -708,12 +729,16 @@ export async function POST(req: NextRequest) {
             mc.commodity_name,
             Round(AVG(p.modal_price),2) AS avg_modal_price,
             Round(AVG(p.min_price),2) AS avg_min_price,
-            Round(AVG(p.max_price),2) AS avg_max_price
+            Round(AVG(p.max_price),2) AS avg_max_price,
+            'All' As district_name,
+            'Monthly' as caculationType
           FROM 
             agmarknet.price p  
           JOIN 
             agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
           JOIN 
+        agmarknet.master_district md ON md.district_id = tsd.district_id
+            JOIN 
             agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON mc.commodity_id = p.commodity_id
@@ -736,10 +761,14 @@ export async function POST(req: NextRequest) {
             mc.commodity_name,
             Round(AVG(p.modal_price),2) AS avg_modal_price,
             Round(AVG(p.min_price),2) AS avg_min_price,
-            Round(AVG(p.max_price),2) AS avg_max_price
+            Round(AVG(p.max_price),2) AS avg_max_price,
+            'All' As district_name,
+            'Daily' as caculationType
           FROM 
             agmarknet.price p  
           JOIN 
+        agmarknet.master_district md ON md.district_id = tsd.district_id
+            JOIN 
             agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id 
           JOIN 
             agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
@@ -765,15 +794,20 @@ export async function POST(req: NextRequest) {
             tsd.district_id,
             md.district_name,
             mc.commodity_name,
+            ms.state_name,
             Round(AVG(p.modal_price),2) AS avg_modal_price,
             Round(AVG(p.min_price),2) AS avg_min_price,
-            Round(AVG(p.max_price),2) AS avg_max_price
+            Round(AVG(p.max_price),2) AS avg_max_price,
+            'Yearly' as caculationType
           FROM 
             agmarknet.price p
+            
           JOIN 
             agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON p.district_id = md.district_id
+            JOIN 
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON p.commodity_id = mc.commodity_id
           WHERE 
@@ -794,9 +828,11 @@ export async function POST(req: NextRequest) {
             tsd.district_id,
             md.district_name,
             mc.commodity_name,
+            ms.state_name,
             Round(AVG(p.modal_price),2) AS avg_modal_price,
             Round(AVG(p.min_price),2) AS avg_min_price,
-            Round(AVG(p.max_price),2) AS avg_max_price
+            Round(AVG(p.max_price),2) AS avg_max_price,
+            'Monthly' as caculationType
   
           FROM 
             agmarknet.price p
@@ -804,7 +840,9 @@ export async function POST(req: NextRequest) {
             agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON p.district_id = md.district_id
-          JOIN
+          JOIN 
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
+            JOIN
             agmarknet.master_commodities mc ON p.commodity_id = mc.commodity_id
           WHERE 
             p.commodity_id = ${Number(commodity_id)}
@@ -823,17 +861,20 @@ export async function POST(req: NextRequest) {
             tsd.district_id,
             md.district_name,
             mc.commodity_name,
+            ms.state_name,
             Round(AVG(p.modal_price),2) AS avg_modal_price,
             Round(AVG(p.min_price),2) AS avg_min_price,
             Round(AVG(p.max_price),2) AS avg_max_price,
-
+            'Daily' as caculationType
           FROM 
             agmarknet.price p
           JOIN 
             agmarknet.trans_state_district_UI tsd ON p.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON p.district_id = md.district_id
-          JOIN
+          JOIN 
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
+            JOIN
             agmarknet.master_commodities mc ON p.commodity_id = mc.commodity_id
           WHERE 
             p.commodity_id = ${Number(commodity_id)}
@@ -857,7 +898,10 @@ export async function POST(req: NextRequest) {
           SELECT 
             DATE_FORMAT(q.date, '%Y') AS year, 
             mc.commodity_name,
-            Round(SUM(q.quantity),2) AS total_quantity
+            Round(SUM(q.quantity),2) AS total_quantity,
+            'India' AS state_name,
+            'All' As district_name,
+            'Yearly' as caculationType
           FROM 
             agmarknet.quantity q
           JOIN 
@@ -880,7 +924,10 @@ export async function POST(req: NextRequest) {
           SELECT 
             DATE_FORMAT(q.date, '%Y-%m-01') AS month, 
             mc.commodity_name,
-            Round(SUM(q.quantity),2) AS total_quantity
+            Round(SUM(q.quantity),2) AS total_quantity,
+            'India' AS state_name,
+            'All' As district_name,
+            'Monthly' as caculationType
           FROM 
             agmarknet.quantity q
           JOIN 
@@ -903,7 +950,10 @@ export async function POST(req: NextRequest) {
           SELECT 
             DATE_FORMAT(q.date, '%Y-%m-%d') AS date, 
             mc.commodity_name,
-            Round(SUM(q.quantity),2) AS total_quantity
+            Round(SUM(q.quantity),2) AS total_quantity,
+            'India' AS state_name,
+            'All' As district_name,
+            'Daily' as caculationType
           FROM 
             agmarknet.quantity q
           JOIN 
@@ -933,7 +983,9 @@ export async function POST(req: NextRequest) {
             tsd.state_id,
             ms.state_name,
             mc.commodity_name,
-            Round(SUM(q.quantity),2) AS total_quantity
+            Round(SUM(q.quantity),2) AS total_quantity,
+            'All' As district_name,
+            'Yearly' as caculationType
           FROM 
             agmarknet.quantity q
           JOIN 
@@ -961,7 +1013,9 @@ export async function POST(req: NextRequest) {
             tsd.state_id,
             ms.state_name,
             mc.commodity_name,
-            Round(SUM(q.quantity),2) AS total_quantity
+            Round(SUM(q.quantity),2) AS total_quantity,
+            'All' As district_name,
+            'Monthly' as caculationType
           FROM 
             agmarknet.quantity q
           JOIN 
@@ -987,7 +1041,9 @@ export async function POST(req: NextRequest) {
             tsd.state_id,
             ms.state_name,
             mc.commodity_name,
-            Round(SUM(q.quantity),2) AS total_quantity
+            Round(SUM(q.quantity),2) AS total_quantity,
+            'All' As district_name,
+            'Daily' as caculationType
           FROM 
             agmarknet.quantity q
           JOIN 
@@ -1016,11 +1072,15 @@ export async function POST(req: NextRequest) {
             tsd.district_id,
             md.district_name,
             mc.commodity_name,
-            Round(SUM(q.quantity),2) AS total_quantity
+            Round(SUM(q.quantity),2) AS total_quantity,
+            ms.state_name,
+            'Yearly' as caculationType
           FROM 
             agmarknet.quantity q
           JOIN 
             agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id
+            JOIN 
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN 
             agmarknet.master_district md ON q.district_id = md.district_id
           JOIN
@@ -1045,13 +1105,17 @@ export async function POST(req: NextRequest) {
             tsd.district_id,
             md.district_name,
             mc.commodity_name,
-            Round(SUM(q.quantity),2) AS total_quantity
+            Round(SUM(q.quantity),2) AS total_quantity,
+            ms.state_name,
+            'Monthly' as caculationType
           FROM 
             agmarknet.quantity q
           JOIN 
             agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON q.district_id = md.district_id
+            JOIN 
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON q.commodity_id = mc.commodity_id
           WHERE 
@@ -1071,13 +1135,17 @@ export async function POST(req: NextRequest) {
             tsd.district_id,
             md.district_name,
             mc.commodity_name,
-            Round(SUM(q.quantity),2) AS total_quantity
+            Round(SUM(q.quantity),2) AS total_quantity,
+            ms.state_name,
+            'Daily' as caculationType
           FROM 
             agmarknet.quantity q
           JOIN 
             agmarknet.trans_state_district_UI tsd ON q.district_id = tsd.district_id
           JOIN 
             agmarknet.master_district md ON q.district_id = md.district_id
+            JOIN 
+            agmarknet.master_states_UI ms ON ms.state_id = tsd.state_id
           JOIN
             agmarknet.master_commodities mc ON q.commodity_id = mc.commodity_id
           WHERE 

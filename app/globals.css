@@ -109,13 +109,13 @@ html {
 .ant-slider-rail {
     background-color: var(--primary-color) !important;
     opacity: 20%;
-    height: 8px !important;
+    height: 4px !important;
     border-radius: 20px !important;
 }
 
 .ant-slider-track {
     background-color: var(--primary-color) !important;
-    height: 8px !important;
+    height: 4px !important;
 }
 
 .ant-slider-handle::after {
