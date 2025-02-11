@@ -56,14 +56,14 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
         ))}
       </div>
       {/* <div className="rounded-[32px] max-w-[928px] font-sans font-medium shadow-md border border-gray-300 relative -mt-[18px] z-0 h-[617px]"> */}
-      <div className=" max-w-[928px] rounded-2xl font-sans font-medium  relative -mt-[18px] z-0 h-[617px]">
+      <div className=" w-full rounded-2xl font-sans font-medium  relative -mt-[18px] z-0 h-[617px]">
 
 
         {/* Tab Content */}
-        <div >
+        <div className="w-full">
           {/* Timeseries Tab */}
           <div className={openTab === 1 ? "block" : "hidden"}>
-            <div className="rounded-[32px] max-w-[928px] font-sans font-medium h-[524px]">
+            <div className="rounded-[32px] w-full font-sans font-medium h-[524px]">
               {/* <LineChart PriceData={priceDataWithChange} QtyData={qtyDataWithChange} /> */}
               <ParentChart PriceData={priceDataWithChange} QtyData={qtyDataWithChange} startsDate={startDate} endsDate={endDate}/>
             </div>

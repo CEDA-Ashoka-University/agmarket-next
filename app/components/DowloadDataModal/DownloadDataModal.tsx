@@ -205,7 +205,7 @@ const DownloadDataModal: React.FC<DownloadDataModalProps> = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (initial) {
-      console.log("inside button")
+      // console.log("inside button")
       handleUserVerification();
     } else if (unverified) {
       handleAddUser();

@@ -22,7 +22,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
 
   const [mapdata, setinitialData] = useState(initialMapData || []);
 
- 
+
 
   const svgRef = useRef(null);
   const legendRef = useRef(null);
@@ -35,12 +35,32 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
   const [selectedCat, setSelectedCat] = useState("");
   const [highestPrice, setHighestPrice] = useState(null);
   const [lowestPrice, setLowestPrice] = useState(null);
+  const chartContainerRef = useRef(null);
+  const [width_chart, setChartWidth] = useState(650); // Default width
+  useEffect(() => {
+    const updateWidth = () => {
+      if (chartContainerRef.current) {
+        const newWidth = chartContainerRef.current.clientWidth * 0.8;
+        if (newWidth > 0) {
+          setChartWidth(newWidth);
+        }
+      }
+    };
+
+    updateWidth(); // Set initial width
+    window.addEventListener("resize", updateWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
+
 
   useEffect(() => {
     setinitialData(initialMapData);
   }, [initialMapData]);
 
-  
+
   const handleTabChange = (tab) => {
     setSelectedTab(tab); // Change the selected tab
     const dataKey = tab === "Price" ? "priceData" : "quantityData";
@@ -69,40 +89,40 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
     return parseMonthYear(b) - parseMonthYear(a);
   });
 
-  
+
 
 
   useEffect(() => {
     if (!initialMapData) return;
-  
+
     const dataKey = selectedTab === "Price" ? "priceData" : "quantityData";
-  
+
     // Determine the first available category from updated data
     const defaultCategory =
       initialMapData?.[dataKey]?.[0]?.month ||
       initialMapData?.[dataKey]?.[0]?.date ||
       initialMapData?.[dataKey]?.[0]?.year;
-  
+
     // Check if the selected category is still valid
     const isSelectedCatValid = initialMapData?.[dataKey]?.some(
       (item) => (item.month || item.date || item.year) === selectedCat
     );
-  
+
     // If the current selection is invalid, update to the default category
     if (!isSelectedCatValid && defaultCategory) {
       setSelectedCat(defaultCategory);
     }
-  
+
     // Filter data based on the updated or selected category
     const updatedData = initialMapData?.[dataKey]?.filter(
       (item) => (item.month || item.date || item.year) === (isSelectedCatValid ? selectedCat : defaultCategory)
     );
-  
+
     setFilteredMapData(updatedData || []);
   }, [initialMapData, selectedTab, selectedCat]);
-  
-  console.log("sorted",sortedCategories)
-  
+
+  // console.log("sorted",sortedCategories)
+
 
   const handleCatChange = (category) => {
     setSelectedCat(category); // This will trigger the update of selectedCat
@@ -112,8 +132,8 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
     const updatedData = initialMapData?.[dataKey]?.filter(
       (item) => (item.month || item.date || item.year) === category
     );
-    console.log("Category Change:", category);
-    console.log("Updated Data:", updatedData);
+    // console.log("Category Change:", category);
+    // console.log("Updated Data:", updatedData);
 
     setFilteredMapData(updatedData || []);
   };
@@ -172,11 +192,12 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
   };
 
   useEffect(() => {
-    const width = 910;
+    const width = width_chart;
+    // console.log("inside topojson",width)
     const height = 400;
     const svg = d3.select(svgRef.current).attr("width", width).attr("height", height);
 
-    
+
     svg.selectAll("*").remove();
 
     svg.append("rect").attr("width", width).attr("height", height).style("fill", "white");
@@ -227,10 +248,10 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
         : geoJsonData.features.filter(
           (district) => district.properties.state_code === String(stateCode)
         );
-    
-    console.log("state_code",stateCode)
 
-    console.log("filteredfeatures",filteredFeatures)
+    // console.log("state_code",stateCode)
+
+    // console.log("filteredfeatures",filteredFeatures)
     const projection = d3.geoMercator();
     const path = d3.geoPath().projection(projection);
 
@@ -294,10 +315,10 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
               : "No data available"
             }`);
       })
-     
+
 
       .on("mousemove", function (event) {
-        console.log("Yes")
+        // console.log("Yes")
         tooltip
           .style("top", `${event.pageY + 10}px`)
           .style("left", `${event.pageX + 10}px`);
@@ -315,35 +336,35 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
         sortedPrices[0],
         sortedPrices[sortedPrices.length - 1],
       ];
-      console.log("Prices sorted",highest,lowest)
-      console.log("geoJsonData",geoJsonData.features)
+      // console.log("Prices sorted",highest,lowest)
+      // console.log("geoJsonData",geoJsonData.features)
 
       // console.log("highes and lowest price",highest, lowest)
       setHighestPrice({
         name:
           stateCode === 0
             ? geoJsonData.features.find(
-                (f) => f.properties.district_code === highest[0]
-              )?.properties.district_name
+              (f) => f.properties.district_code === highest[0]
+            )?.properties.district_name
             :
-          geoJsonData.features.find(
-            (f) => f.properties.district_code === highest[0]
-          )?.properties.district_name,
+            geoJsonData.features.find(
+              (f) => f.properties.district_code === highest[0]
+            )?.properties.district_name,
         price: highest[1],
       });
       setLowestPrice({
         name:
           stateCode === 0
             ? geoJsonData.features.find(
-                (f) => f.properties.district_code === lowest[0]
-              )?.properties.district_name:
-          geoJsonData.features.find(
-            (f) => f.properties.district_code === lowest[0]
-          )?.properties.district_name,
+              (f) => f.properties.district_code === lowest[0]
+            )?.properties.district_name :
+            geoJsonData.features.find(
+              (f) => f.properties.district_code === lowest[0]
+            )?.properties.district_name,
         price: lowest[1],
       });
     }
-    
+
     // Add custom legend with gradient bar
     const legendContainer = d3.select(legendRef.current);
     legendContainer.selectAll("*").remove(); // Clear previous legend
@@ -408,16 +429,16 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
 
 
 
-      
+
 
   return (
-    <div style={{ display: "flex" }}>
+    <div ref={chartContainerRef} style={{ width: "100%" }}>
       {/* Dropdown and Tabs Container */}
       <div >
-      <div ref={containerRef} style={{ flex: 2, position: "relative", padding: "10px", height: '525px' }}>
+        <div ref={containerRef} style={{ width: "100%", flex: 2, position: "relative", padding: "10px", height: '525px' }}>
           <div style={{ display: "flex", alignItems: "center", position: "relative", gap: "15px" }}>
 
-            <div  className="flex gap-2 p-1 bg-white">
+            <div className="flex gap-2 p-1 bg-white">
               <button data-tab="price"
                 onClick={() => handleTabChange("Price")}
                 className={`px-2.5 py-1 text-sm border rounded cursor-pointer ${selectedTab === "Price" ? "bg-[#1A375F] text-white" : "bg-white text-[#1A375F]"
@@ -472,33 +493,33 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
               <p>{filteredMapData[0]?.commodity_name}
                 <span className="mx-2 text-sm text-gray-400">•</span>
                 {stateCode === 0 ? "India" : filteredMapData[0]?.state_name}
-            
+
               </p>
             </span>
           </div>
           <svg style={{
-              position: "absolute",
-              top: '200px',
-              // left: '200px',
-              width:'600px',
-              transform: "translate(25%, 25%)",
-              opacity: 0.05,
-              // zIndex: -1, // Ensure it's behind
-              pointerEvents: "none", // Prevent interference with interactions
-            }}
+            position: "absolute",
+            top: '200px',
+            // left: '200px',
+            width: '600px',
+            transform: "translate(25%, 25%)",
+            opacity: 0.05,
+            // zIndex: -1, // Ensure it's behind
+            pointerEvents: "none", // Prevent interference with interactions
+          }}
           >
-              <g>
-                <CedaIcon
-                  // style={{width:'600px', height:'200px'}}
-                  width={600} // Adjust width as needed
-                  height={100} // Adjust height as needed
-                />
-              
-                      </g>
-                    </svg>
+            <g>
+              <CedaIcon
+                // style={{width:'600px', height:'200px'}}
+                width={600} // Adjust width as needed
+                height={100} // Adjust height as needed
+              />
 
-          <svg ref={svgRef} style={{ marginTop: "20px" }}>
-         
+            </g>
+          </svg>
+
+          <svg ref={svgRef} style={{ marginTop: "20px", marginLeft: "40px" }}>
+
 
           </svg>
           {/* <g style={{ transform: "translate(25%, 25%)", opacity: 0.05 ,marginTop:'-250px', marginLeft:'200px'}}>
@@ -516,28 +537,28 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
           </div>
 
 
-        {/* Highest and Lowest Prices */}
-        <div style={{ position: "absolute", top: "30%", left: "10px", minWidth: "200px", maxWidth: "300px" }}>
-          {highestPrice && (
-            <div className="max-w-sm bg-[#c2294c] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <strong className="text-white font-sans text-sm pl-4"> {selectedTab === "Price" ? "Highest Price" : "Highest Quantity"}</strong>
-              <div className="bg-white pl-4 pt-4 pb-4 pr-4 font-sans text-sm text-[#1A375F]">
-                <div >{highestPrice.name} • {selectedTab === "Price" ? "₹" : ""} {highestPrice.price.toLocaleString()} {selectedTab === "Quantity" ? "Tonne" : ""}</div>
+          {/* Highest and Lowest Prices */}
+          <div style={{ position: "absolute", top: "30%", right: "10%", minWidth: "200px", maxWidth: "200px" }}>
+            {highestPrice && (
+              <div className="max-w-sm bg-[#c2294c] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <strong className="text-white font-sans text-sm pl-4"> {selectedTab === "Price" ? "Highest Price" : "Highest Quantity"}</strong>
+                <div className="bg-white pl-4 pt-4 pb-4 pr-4 font-sans text-sm text-[#1A375F]">
+                  <div >{highestPrice.name} • {selectedTab === "Price" ? "₹" : ""} {highestPrice.price.toLocaleString()} {selectedTab === "Quantity" ? "Tonne" : ""}</div>
+                </div>
               </div>
-            </div>
-          )}
-          {lowestPrice && (
-            <div className="bg-clip-padding max-w-sm bg-[#f5af95] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style={{ marginTop: "10px" }}>
-              <strong className="text-[#1A375F] font-sans text-sm pl-4 ">{selectedTab === "Price" ? "Lowest Price" : "Lowest Quantity"}</strong>
-              <div className="bg-white pl-4 pt-4 pb-4 pr-4 font-sans text-sm text-[#1A375F]">
-                <div>{lowestPrice.name} • {selectedTab === "Price" ? "₹" : ""} {lowestPrice.price.toLocaleString()}{selectedTab === "Quantity" ? " Tonne" : ""}</div>
+            )}
+            {lowestPrice && (
+              <div className="bg-clip-padding max-w-sm bg-[#f5af95] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style={{ marginTop: "10px" }}>
+                <strong className="text-[#1A375F] font-sans text-sm pl-4 ">{selectedTab === "Price" ? "Lowest Price" : "Lowest Quantity"}</strong>
+                <div className="bg-white pl-4 pt-4 pb-4 pr-4 font-sans text-sm text-[#1A375F]">
+                  <div>{lowestPrice.name} • {selectedTab === "Price" ? "₹" : ""} {lowestPrice.price.toLocaleString()}{selectedTab === "Quantity" ? " Tonne" : ""}</div>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
         </div>
 
-        <div className="flex gap-6 bg-gray-100 border-t border-blue-950/30 rounded-b-2xl py-4 px-4 h-20 w-[928px] mt-[12px]">
+        <div className="flex gap-6 bg-gray-100 border-t border-blue-950/30 rounded-b-2xl py-4 px-4 h-20 w-full mt-[12px]">
           {/* <ChartButton
             icon="https://cdn.builder.io/api/v1/image/assets/TEMP/11765651394374b6b9612a55c2b357118ffccaf24c9930bc589282fa25505338?placeholderIfAbsent=true&apiKey=5b3d0929746d4ec3b24a0cb1c5bb8afc"
             text="Download chart"
@@ -555,45 +576,45 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
         />
         
       )} */}
-        <Buttons
-  className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
-  handleClick={() => setOpenModalName("DOWNLOAD_CHART")}
->
-  <DownloadIcon className="w-3.5 h-4.5" />
-  <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
-  Download charts
-  </p>
-</Buttons>
+          <Buttons
+            className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
+            handleClick={() => setOpenModalName("DOWNLOAD_CHART")}
+          >
+            <DownloadIcon className="w-3.5 h-4.5" />
+            <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
+              Download charts
+            </p>
+          </Buttons>
 
           <Buttons
-  className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
-  handleClick={() => setOpenModalName("SHARE_CHART")}
->
-  <ShareIcon className="w-3.5 h-3.5" />
-  <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
-    Share Chart
-  </p>
-</Buttons>
+            className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
+            handleClick={() => setOpenModalName("SHARE_CHART")}
+          >
+            <ShareIcon className="w-3.5 h-3.5" />
+            <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
+              Share Chart
+            </p>
+          </Buttons>
 
-{/* <ChartButton
+          {/* <ChartButton
   icon={<ShareIcon />}
   text="Share chart"
   onClick={() => setOpenModalName("SHARE_CHART")}
 /> */}
 
-{openModalName === "DOWNLOAD_CHART" && (
-        <DownloadDataModal
-          handleCloseModal={() => setOpenModalName("")}
-          handleDownloadClick={handleDownload}
-        />
-      )}
-                {openModalName === "SHARE_CHART" && (
-        <ShareSocialModal
-          handleCloseModal={() => setOpenModalName("")}
-          handleDownloadClick={handleDownload}
-        />
-        
-      )}
+          {openModalName === "DOWNLOAD_CHART" && (
+            <DownloadDataModal
+              handleCloseModal={() => setOpenModalName("")}
+              handleDownloadClick={handleDownload}
+            />
+          )}
+          {openModalName === "SHARE_CHART" && (
+            <ShareSocialModal
+              handleCloseModal={() => setOpenModalName("")}
+              handleDownloadClick={handleDownload}
+            />
+
+          )}
 
         </div>
       </div>

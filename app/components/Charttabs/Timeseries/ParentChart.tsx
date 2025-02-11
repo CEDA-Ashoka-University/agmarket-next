@@ -124,7 +124,7 @@ const ChartParent: React.FC<ParentProps> = ({ PriceData, QtyData, startsDate,end
       console.error("Error fetching data:", error);
     }
   };
-  console.log("filteredPriceData",filteredPriceData)
+  // console.log("filteredPriceData",filteredPriceData)
 
   // Modal open/close handler
   const toggleModal = () => {
@@ -132,7 +132,7 @@ const ChartParent: React.FC<ParentProps> = ({ PriceData, QtyData, startsDate,end
   };
 
   const handleSubmitFilters = (filters: any) => {
-    console.log("get filters",filters)
+    // console.log("get filters",filters)
     setFilterValues(filters);  // Update state with filter values
     handleDataFetch(filters);  // Fetch data with the new filters
     toggleModal(); // Close modal after submit
@@ -263,7 +263,7 @@ const ChartParent: React.FC<ParentProps> = ({ PriceData, QtyData, startsDate,end
         </div>
       )}
 
-      <div className="bg-gray-100 rounded-b-2xl pt-4 px-6 pb-4 border-t border-b border-r  border-[rgba(26,55,95,0.3)] w-[928px]">
+      <div className="bg-gray-100 rounded-b-2xl pt-4 px-6 pb-4 border-t border-b border-r  border-[rgba(26,55,95,0.3)] w-full">
         <div className="flex gap-6">
           {/* <ChartButton
             icon="https://cdn.builder.io/api/v1/image/assets/TEMP/11765651394374b6b9612a55c2b357118ffccaf24c9930bc589282fa25505338?placeholderIfAbsent=true&apiKey=5b3d0929746d4ec3b24a0cb1c5bb8afc"

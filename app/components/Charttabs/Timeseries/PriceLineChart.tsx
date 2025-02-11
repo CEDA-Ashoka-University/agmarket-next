@@ -14,7 +14,7 @@ const MARGINS = {
 };
 const HEIGHT = 300; // Chart height
 // const WIDTH = 800; // Chart width
-const WIDTH = 650; // Chart width
+// const WIDTH = 650; // Chart width
 
 interface PriceDataItem {
   date: string;
@@ -56,6 +56,26 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
   const yAxisRef = useRef<SVGGElement | null>(null);
   const chartGroupRef = useRef<SVGGElement | null>(null);
   const legendRef = useRef<HTMLDivElement | null>(null);
+  const chartContainerRef = useRef<HTMLDivElement | null>(null);
+  const [WIDTH, setChartWidth] = useState(650); // Default width
+
+  useEffect(() => {
+    // Resize chart width based on parent container
+    const updateWidth = () => {
+      if (chartContainerRef.current) {
+        setChartWidth(chartContainerRef.current.clientWidth * 0.7);
+      }
+    };
+
+    updateWidth(); // Set initial width
+    window.addEventListener("resize", updateWidth); // Update on resize
+
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
+
+
   // Initialize date range state
   // Convert dates to Date objects
   const parseDate = (d: PriceDataItem) =>
@@ -79,7 +99,7 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
   });
 
 
-  console.log("fitleredDatacheck", filteredData)
+  // console.log("fitleredDatacheck", filteredData)
 
 
   useEffect(() => {
@@ -129,7 +149,7 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
 
     const dateRangeInDays = (maxDatefilter - minDatefilter) / (1000 * 60 * 60 * 24);
 
-    console.log("dateRange, min ,max", dateRangeInDays, minDatefilter, maxDatefilter)
+    // console.log("dateRange, min ,max", dateRangeInDays, minDatefilter, maxDatefilter)
     let tickFormat;
     if (dateRangeInDays > 365 && dateRangeInDays < 762) {
       tickFormat = d3.timeFormat("%b, %Y"); // Year format
@@ -170,7 +190,7 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
 
       return `${d.commodity_name}-${isAllIndia ? "All India" : d.state_name || ""}-${d.district_name || ""}-${d.calculationType}`;
     });
-    console.log("grouped data",groupedData,filteredData)
+    // console.log("grouped data",groupedData,filteredData)
     const lines = [
       { key: "avg_modal_price", label: "Modal Price" },
       { key: "avg_min_price", label: "Min Price" },
@@ -378,7 +398,7 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
               <EyeIcon
                 onClick={() => {
                   const escapedLineKey = escapeSelector(lineKey);  // Use the escape function here
-                  console.log("linekey", escapedLineKey);
+                  // console.log("linekey", escapedLineKey);
           
                   const isHidden = svg.selectAll(`.line-${escapedLineKey}`).style("display") === "none";
                   svg.selectAll(`.line-${escapedLineKey}`).style("display", isHidden ? "block" : "none");
@@ -401,7 +421,7 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
   }, [filteredData, dateRange]);
 
   return (
-    <>
+    < div ref={chartContainerRef} style={{ width: "100%" }}>
       <div
         className="overflow-visible pt-2 pl-6 pr-[24px]"
         style={{
@@ -451,7 +471,8 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
         style={{
           position: "absolute",
           top: `${MARGINS.TOP + 80}px`,
-          left: `${WIDTH + MARGINS.LEFT + MARGINS.RIGHT + 10}px`,
+          // left: `${WIDTH + MARGINS.LEFT + MARGINS.RIGHT + 10}px`,
+          right: `20px`,
           overflowY: "auto",
           maxHeight: "200px",
           border: "solid 2px #c0c7d1",
@@ -461,7 +482,7 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
 
         }}
       />
-      <div style={{ display: "flex", flexDirection: "column", padding: "5px", width: "700px", marginLeft: "30px" }}>
+      <div style={{ display: "flex", flexDirection: "column", padding: "5px", width: "70%", marginLeft: "30px" }}>
 
         < Slider
           range
@@ -485,7 +506,7 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -59,7 +59,7 @@ export const useFetchFilteredMapData=({
 
         if (!res.ok) throw new Error(`Failed to fetch data: ${res.statusText}`);
         const data = await res.json();
-        // console.log("map data121", data)
+        // // console.log("map data121", data)
         setFilteredMapData(data);
       } catch (error) {
         console.error("Error fetching filtered data:", error);

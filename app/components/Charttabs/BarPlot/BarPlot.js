@@ -1,5 +1,3 @@
-
-
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import domtoimage from 'dom-to-image';
@@ -27,6 +25,37 @@ const BarPlot = ({ initialMapData, stateCode }) => {
   const [filteredMapData, setFilteredMapData] = useState(
     mapdata?.priceData || []
   );
+  const chartContainerRef = useRef(null);
+  const [width_chart, setChartWidth] = useState(800); // Default width
+
+  useEffect(() => {
+    console.log("chartContainerRef.current", containerRef.current);
+    if (chartContainerRef.current) {
+      console.log("chartContainerRef.current.clientWidth", containerRef.current.clientWidth);
+    }
+  }, []);
+  useEffect(() => {
+    const updateWidth = () => {
+      if (chartContainerRef.current) {
+        const newWidth = chartContainerRef.current.clientWidth;
+        console.log("get the width", newWidth);
+
+        if (newWidth !== width_chart && newWidth > 0) {
+          setChartWidth(newWidth);
+        }
+      } else {
+        console.log("chartContainerRef is null");
+      }
+    };
+
+    window.addEventListener("resize", updateWidth);
+
+    // Delay execution to allow rendering to complete
+    setTimeout(updateWidth, 1); // Small delay ensures the DOM has updated
+
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
@@ -80,7 +109,7 @@ const BarPlot = ({ initialMapData, stateCode }) => {
         modalPriceByRegion[key] = d.ModalPrice | d.total_quantity;
       }
     });
-    // console.log("Map data", filteredMapData)
+    // // console.log("Map data", filteredMapData)
     const modalPrices = Object.values(modalPriceByRegion);
 
     const updatedData = initialMapData?.[dataKey]
@@ -196,7 +225,8 @@ const BarPlot = ({ initialMapData, stateCode }) => {
 
   useEffect(() => {
     // if (loading || !filteredMapData.length) return; 
-    const width = 910;
+    const width = width_chart;
+    // console.log("width bar chart",width,width_chart)
     const height = 400;
     const svg = d3.select(svgRef.current).attr("width", width).attr("height", height);
     svg.selectAll("*").remove();
@@ -297,10 +327,10 @@ const BarPlot = ({ initialMapData, stateCode }) => {
 
   }, [filteredMapData, selectedTab]);
   return (
-    <div style={{ display: "flex" }}>
+    <div ref={chartContainerRef} style={{ width: "100%" }}>
       {/* Dropdown and Tabs Container */}
       <div >
-        <div ref={containerRef} style={{ flex: 2, position: "relative", padding: "10px", height: '525px' }}>
+        <div ref={containerRef} style={{  position: "relative", padding: "10px", height: '525px',width:"100%" }}>
           <div style={{ display: "flex", alignItems: "center", position: "relative", gap: "15px" }}>
 
             <div className="flex gap-2 p-1 bg-white">
@@ -383,67 +413,51 @@ const BarPlot = ({ initialMapData, stateCode }) => {
             </g>
           </svg>
 
+
           <svg ref={svgRef} style={{ marginTop: "20px", height: "450px" }}></svg>
 
         </div>
-        <div className="flex gap-6 bg-gray-100 border-t border-blue-950/30 rounded-b-2xl py-4 px-4 h-20 w-[928px] mt-[12px]">
+        <div className="flex gap-6 bg-gray-100 border-t border-blue-950/30 rounded-b-2xl py-4 px-4 h-20 w-full mt-[12px]">
+
+          <Buttons
+            className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
+            handleClick={() => setOpenModalName("DOWNLOAD_CHART")}
+          >
+            <DownloadIcon className="w-3.5 h-4.5" />
+            <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
+              Download charts
+            </p>
+          </Buttons>
+
+          <Buttons
+            className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
+            handleClick={() => setOpenModalName("SHARE_CHART")}
+          >
+            <ShareIcon className="w-3.5 h-3.5" />
+            <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
+              Share Chart
+            </p>
+          </Buttons>
+
           {/* <ChartButton
-            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/11765651394374b6b9612a55c2b357118ffccaf24c9930bc589282fa25505338?placeholderIfAbsent=true&apiKey=5b3d0929746d4ec3b24a0cb1c5bb8afc"
-            text="Download chart"
-            onClick={handleDownload}
-          />
-          <ChartButton
-            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/fdc24a00e9f1688797bcaa3a71dabf14ed5176c1612528d9a886f3eb432a31a6?placeholderIfAbsent=true&apiKey=5b3d0929746d4ec3b24a0cb1c5bb8afc"
-            text="Share chart"
-            onClick={() => setOpenModalName("SHARE_CHART")}
-          />
+  icon={<ShareIcon />}
+  text="Share chart"
+  onClick={() => setOpenModalName("SHARE_CHART")}
+/> */}
+
+          {openModalName === "DOWNLOAD_CHART" && (
+            <DownloadDataModal
+              handleCloseModal={() => setOpenModalName("")}
+              handleDownloadClick={handleDownload}
+            />
+          )}
           {openModalName === "SHARE_CHART" && (
             <ShareSocialModal
               handleCloseModal={() => setOpenModalName("")}
               handleDownloadClick={handleDownload}
             />
 
-
-          )} */}
-        <Buttons
-  className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
-  handleClick={() => setOpenModalName("DOWNLOAD_CHART")}
->
-  <DownloadIcon className="w-3.5 h-4.5" />
-  <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
-  Download charts
-  </p>
-</Buttons>
-
-          <Buttons
-  className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
-  handleClick={() => setOpenModalName("SHARE_CHART")}
->
-  <ShareIcon className="w-3.5 h-3.5" />
-  <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
-    Share Chart
-  </p>
-</Buttons>
-
-{/* <ChartButton
-  icon={<ShareIcon />}
-  text="Share chart"
-  onClick={() => setOpenModalName("SHARE_CHART")}
-/> */}
-
-{openModalName === "DOWNLOAD_CHART" && (
-        <DownloadDataModal
-          handleCloseModal={() => setOpenModalName("")}
-          handleDownloadClick={handleDownload}
-        />
-      )}
-                {openModalName === "SHARE_CHART" && (
-        <ShareSocialModal
-          handleCloseModal={() => setOpenModalName("")}
-          handleDownloadClick={handleDownload}
-        />
-        
-      )}
+          )}
 
         </div>
       </div>

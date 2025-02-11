@@ -11,7 +11,7 @@ const MARGINS = {
   TOP: 20,
   BOTTOM: 40, // Increased to 80 for legend space
 };
-const WIDTH = 650;
+// const WIDTH = 650;
 const HEIGHT = 300;
 
 interface QtyDataItem {
@@ -39,6 +39,24 @@ const QuantityLineChart: React.FC<QuantityLineChartProps> = ({ QtyData, onRemove
   const yAxisRef = useRef<SVGGElement | null>(null);
   const chartGroupRef = useRef<SVGGElement | null>(null);
   const legendRef = useRef<HTMLDivElement | null>(null);
+  const chartContainerRef = useRef<HTMLDivElement | null>(null);
+  const [WIDTH, setChartWidth] = useState(650); // Default width
+
+  useEffect(() => {
+    // Resize chart width based on parent container
+    const updateWidth = () => {
+      if (chartContainerRef.current) {
+        setChartWidth(chartContainerRef.current.clientWidth * 0.7);
+      }
+    };
+
+    updateWidth(); // Set initial width
+    window.addEventListener("resize", updateWidth); // Update on resize
+
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
 
   // Convert dates to Date objects
@@ -58,7 +76,7 @@ const QuantityLineChart: React.FC<QuantityLineChartProps> = ({ QtyData, onRemove
     return date >= dateRange[0] && date <= dateRange[1];
   });
 
-  console.log("filtereddataatqtyqty",filteredData)
+  // console.log("filtereddataatqtyqty",filteredData)
 
   useEffect(() => {
     if (!filteredData || filteredData.length === 0) return;
@@ -319,7 +337,7 @@ const QuantityLineChart: React.FC<QuantityLineChartProps> = ({ QtyData, onRemove
           .style("cursor", "pointer");
 
           const node = eyeContainer.node(); // Store the node reference
-          console.log("linekey",lineKey)
+          // console.log("linekey",lineKey)
 
 
           function escapeSelector(selector: string): string  {
@@ -334,7 +352,7 @@ const QuantityLineChart: React.FC<QuantityLineChartProps> = ({ QtyData, onRemove
               <EyeIcon
                 onClick={() => {
                   const escapedLineKey = escapeSelector(lineKey);  // Use the escape function here
-                  console.log("linekey", escapedLineKey);
+                  // console.log("linekey", escapedLineKey);
           
                   const isHidden = svg.selectAll(`.line-${escapedLineKey}`).style("display") === "none";
                   svg.selectAll(`.line-${escapedLineKey}`).style("display", isHidden ? "block" : "none");
@@ -356,7 +374,7 @@ const QuantityLineChart: React.FC<QuantityLineChartProps> = ({ QtyData, onRemove
           }, [filteredData, dateRange]);
 
   return (
-    <>
+    <div ref={chartContainerRef} style={{ width: "100%" }} >
     <div
       className="overflow-visible pt-2 pl-6 pr-[24px]"
       style={{
@@ -406,7 +424,8 @@ const QuantityLineChart: React.FC<QuantityLineChartProps> = ({ QtyData, onRemove
       style={{
         position: "absolute",
         top: `${MARGINS.TOP + 80}px`,
-        left: `${WIDTH + MARGINS.LEFT + MARGINS.RIGHT - 10}px`,
+        // left: `${WIDTH + MARGINS.LEFT + MARGINS.RIGHT - 10}px`,
+        right: `20px`,
         overflowY: "auto",
         maxHeight: "200px",
         border: "solid 2px #c0c7d1",
@@ -416,7 +435,7 @@ const QuantityLineChart: React.FC<QuantityLineChartProps> = ({ QtyData, onRemove
 
       }}
     />
-     <div style={{ display: "flex", flexDirection: "column",padding:"5px", width:"700px", marginLeft:"30px",paddingBottom:"25px" }}>
+     <div style={{ display: "flex", flexDirection: "column",padding:"5px", width:"70%", marginLeft:"30px",paddingBottom:"25px" }}>
    
    < Slider
       range
@@ -440,7 +459,7 @@ const QuantityLineChart: React.FC<QuantityLineChartProps> = ({ QtyData, onRemove
       </div>
     )}
     </div>
-  </>
+  </div>
   );
 };
 

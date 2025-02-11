@@ -128,7 +128,7 @@ export default function Home() {
     calculationType,
   });
 
-  console.log("inside page.tsx",filteredData)
+  // console.log("inside page.tsx",filteredData)
 
   const { filteredMapData, isLoading: isMapLoading } = useFetchFilteredMapData({
     stateFilter,
@@ -140,7 +140,7 @@ export default function Home() {
   });
 
   const isLoading = isDataLoading || isMapLoading; // Combined loading state
-  console.log("checking the start and end date",startDate,endDate)
+  // console.log("checking the start and end date",startDate,endDate)
   return (
     <div>
       <Header />
@@ -180,7 +180,7 @@ export default function Home() {
 
         {/* ChartView Section */}
         {/* <div className="w-full lg:flex-1 min-w-max bg-white text-left p-2 h-[641px] shadow-md border  border-gray-300 rounded-2xl"> */}
-        <div className="w-full max-w-[928px] bg-white text-left pt-2 h-[617px] shadow-md border  border-gray-300 rounded-2xl">
+        <div className="w-full  bg-white text-left pt-2 h-[617px] shadow-md border  border-gray-300 rounded-2xl">
           {isLoading ? (
             <div className="flex justify-center items-center h-full">
               <LoadingIcon /> {/* Show loading icon */}
