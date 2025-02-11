@@ -26,7 +26,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/components/Charttabs/Maps/TopoJsonMap.js"
+    "app/components/Charttabs/Maps/TopoJsonMap.js",
+    "app/components/Charttabs/BarPlot/BarPlot.js"
   ],
   "exclude": ["node_modules"]
 }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { PriceData, QuantityData } from "../PriceTable/Types";
 import TopoJsonMap from "./Maps/TopoJsonMap";
 import ParentChart from "./Timeseries/ParentChart"
+import BarPlot from "./BarPlot/BarPlot";
 
 interface ChartContainerProps {
   priceDataWithChange: PriceData[];
@@ -40,7 +41,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
   return (
     <div >
       <div role="tablist" className="flex items-center -space-x-px text-[14px] text-[#1A377F] leading-[1.4] z-10 self-center pl-[40%] relative bg-transparent">
-        {["Timeseries", "Heatmap"].map((tab, index) => (
+        {["Timeseries", "Heatmap","Bar chart"].map((tab, index) => (
           <div
             key={index}
             role="tab"
@@ -74,21 +75,15 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
             <TopoJsonMap initialMapData={filteredMapData} stateCode={stateFilter} />
 
           </div>
+
+          <div className={openTab === 3 ? "block" : "hidden"}>
+
+            <BarPlot initialMapData={filteredMapData} stateCode={stateFilter} />
+
+            </div>
+
         </div>
 
-        {/* <div className="bg-gray-100 rounded-b-[32px] pt-[17px] px-[24px] pb-[30px] border-t border-t-[rgba(26,55,95,0.3)]">
-        <div className="flex gap-6">
-          <ChartButton
-            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/11765651394374b6b9612a55c2b357118ffccaf24c9930bc589282fa25505338?placeholderIfAbsent=true&apiKey=5b3d0929746d4ec3b24a0cb1c5bb8afc"
-            text="Download chart"
-          />
-          <ChartButton
-            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/fdc24a00e9f1688797bcaa3a71dabf14ed5176c1612528d9a886f3eb432a31a6?placeholderIfAbsent=true&apiKey=5b3d0929746d4ec3b24a0cb1c5bb8afc"
-            text="Share chart"
-          />
-          
-        </div>
-      </div> */}
       </div>
     </div>
   );

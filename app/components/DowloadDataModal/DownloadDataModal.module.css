@@ -1,0 +1,228 @@
+/* components/DownloadDataModal.module.css */
+
+.modalHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.modalHeader h2 {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 20px;
+  color: #1a375f;
+}
+
+.modalHeader svg {
+  cursor: pointer;
+}
+
+.modalSubheading {
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 18px;
+  color: #1a375f;
+}
+
+.modalDownloadButtons {
+  padding-bottom: 28px;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 32px;
+}
+
+.modalDownloadButtons .downloadButton {
+  padding: 12px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 60%;
+  
+}
+
+ .downloadButtonActive {
+  border: 2px solid #c73632;
+  opacity: 100%;
+  padding: 12px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.downloadButton svg {
+  width: 50px;
+  height: 50px;
+  fill: rgba(26, 55, 95, 0.1);
+}
+
+.downloadButton p {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  color: #1a375f;
+  padding: 4px;
+  margin-top: 8px;
+  border-radius: 20px;
+  text-align: center;
+  
+}
+
+.downloadButtonActivep {
+  background-color: #c73632;
+  color: white;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+    padding: 4px 10px;
+    margin-top: 8px;
+    border-radius: 20px;
+    text-align: center;
+}
+.downloadButtonNonactivep{
+  font-family: Inter, sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+    color: #1a375f;
+    padding: 4px;
+    margin-top: 8px;
+    border-radius: 20px;
+    text-align: center;
+    opacity: 60%
+
+
+
+}
+
+.downloadCheckboxes {
+  border-top: 1px solid rgba(26, 55, 95, 0.1);
+  padding-top: 28px;
+  padding-bottom: 10px;
+}
+
+.downloadCheckboxes label {
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: rgba(26, 55, 95, 0.8);
+  cursor: pointer;
+}
+
+.downloadCheckboxes input[type="checkbox"] {
+  accent-color: #1a375f;
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+}
+
+.downloadButton {
+  padding: 10px 20px;
+  border-radius: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #1a375f;
+  color: white;
+  margin-top: 24px;
+}
+
+.downloadButton:hover {
+  opacity: 90%;
+}
+
+
+
+
+.user-regestration-modal {
+  width: 24.339vw;
+}
+
+.user-registration-wrapper {
+  height: 31.928vh;
+}
+
+.modalLabel {
+  color: #1a375f;
+  font-size: var(--font-sm);
+  font-weight: 500;
+  line-height: var(--4x);
+  opacity: 80%;
+}
+
+
+.user-registration-wrapper-2 {
+  height: 63.71vh !important;
+}
+
+.user-registration-wrapper-3 {
+  height: 24.339vw !important;
+}
+
+.checkboxdiv {
+  display: flex;
+}
+
+.checklabel {
+  font-size: var(--font-sm);
+  margin-left: var(--3x);
+  line-height: var(--5_5x);
+}
+
+.form-check-input[type="checkbox"] {
+  margin-top: var(--1x);
+  border: var(--border-primary);
+}
+
+.download_data_btns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.download_icon {
+  padding: var(--4x) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.download_icon > span {
+  font-size: var(--font-sm);
+  line-height: var(--4x);
+  padding: var(--1x) var(--4x);
+}
+
+.download_icon_active {
+  border-radius: 10px;
+  border: 2px solid var(--secondary-color);
+}
+
+.download_icon_active > span {
+  padding: var(--1x) var(--4x);
+  color: var(--white-color);
+  border-radius: var(--3_5x);
+  background: var(--secondary-color);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  line-height: var(--4x);
+}
+
+.modal-icon {
+  width: auto;
+}
+
+.modal-hr {
+  margin-top: 0;
+}
