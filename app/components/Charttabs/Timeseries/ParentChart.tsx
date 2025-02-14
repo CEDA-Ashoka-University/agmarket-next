@@ -124,7 +124,7 @@ const ChartParent: React.FC<ParentProps> = ({ PriceData, QtyData, startsDate,end
       console.error("Error fetching data:", error);
     }
   };
-  // console.log("filteredPriceData",filteredPriceData)
+
 
   // Modal open/close handler
   const toggleModal = () => {
@@ -144,32 +144,52 @@ const ChartParent: React.FC<ParentProps> = ({ PriceData, QtyData, startsDate,end
 
     const priceTab = document.getElementById("Price_button");
     const quantityTab = document.getElementById("Quantity_button");
+    const compareTab = document.getElementById("Compare_button");
     const priceTabDisplay = priceTab ? priceTab.style.display : "";
     const quantityTabDisplay = quantityTab ? quantityTab.style.display : "";
-
+    // const compareTabDisplay = compareTab ? compareTab.style.display:"";
+    const compareTabDisplay = compareTab?.style.display ?? "";
     if (selectedTab === "Price" && quantityTab) {
       quantityTab.style.display = "none";
+      // compareTab.style.display = "none";
+      compareTab?.style.setProperty("display", "none");
     } else if (selectedTab === "Quantity" && priceTab) {
       priceTab.style.display = "none";
+      // compareTab.style.display = "none";
+      compareTab?.style.setProperty("display", "none");
     }
 
     domtoimage
+      // .toJpeg(container, {
+      //   quality: 1.0,
+      //   style: { backgroundColor: "#ffffff" },
+      // })
       .toJpeg(container, {
         quality: 1.0,
-        style: { backgroundColor: "#ffffff" },
+        bgcolor: "#ffffff",
+        width: container.clientWidth * 3, // 3x scaling
+        height: container.clientHeight * 3,
+        style: {
+          transform: "scale(3)", // Scale for better clarity
+          transformOrigin: "top left",
+          width: container.clientWidth + "px",
+          height: container.clientHeight + "px",
+        },
       })
       .then((dataUrl) => {
         if (priceTab) priceTab.style.display = priceTabDisplay;
         if (quantityTab) quantityTab.style.display = quantityTabDisplay;
+        if (compareTab) compareTab.style.display = compareTabDisplay;
 
         const link = document.createElement("a");
-        link.download = `map_with_${selectedTab.toLowerCase()}.jpg`;
+        link.download = `Line_Plot_${selectedTab.toLowerCase()}.jpg`;
         link.href = dataUrl;
         link.click();
       })
       .catch((error) => {
         if (priceTab) priceTab.style.display = priceTabDisplay;
         if (quantityTab) quantityTab.style.display = quantityTabDisplay;
+        if (compareTab) compareTab.style.display = compareTabDisplay;
 
         console.error("Error capturing the map:", error);
       });
@@ -200,7 +220,7 @@ const ChartParent: React.FC<ParentProps> = ({ PriceData, QtyData, startsDate,end
 
 
           {/* Compare Data button placed here */}
-          <button
+          <button id="Compare_button"
           onClick={toggleModal}
           className="px-4 py-1 text-sm border rounded ml-auto bg-[#1A375F] text-white"
         >

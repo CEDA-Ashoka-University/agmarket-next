@@ -206,7 +206,7 @@ export const PriceTable: React.FC<PriceTableProps> = ({
 >
   <DownloadIcon className="w-3.5 h-3.5" /> 
   <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
-    Download charts
+    Download Table
   </p>
 </Buttons>
 

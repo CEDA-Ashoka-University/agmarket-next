@@ -1,128 +1,3 @@
-
-// import { useState } from "react";
-// import Modal from "../../ui/Modal/Modal";
-// import CsvIcon from "../../assets/icons/CsvIcon";
-// import CloseIcon from "../../assets/icons/CloseIcon";
-// import PngIcon from "../../assets/icons/PngIcon";
-// import Button from "../../ui/Button/Button";
-
-// import styles from "./DownloadDataModal.module.css";
-
-// interface DownloadDataModalProps {
-//   handleCloseModal: () => void;
-//   handleDownloadClick: (
-//     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-//     downloadOption: string,
-//     includeOptions: { hiddenCharts: boolean; selectedTimeFrame: boolean }
-//   ) => void;
-// }
-
-// const DownloadDataModal: React.FC<DownloadDataModalProps> = ({
-//   handleCloseModal,
-//   handleDownloadClick,
-// }) => {
-//   const [downloadOption, setDownloadOption] = useState("CSV");
-//   const [includeOptions, setIncludeOptions] = useState({
-//     hiddenCharts: false,
-//     selectedTimeFrame: true,
-//   });
-
-//   const handleIncludeOptionsChange = (key: string, value: boolean) => {
-//     setIncludeOptions({ ...includeOptions, [key]: value });
-//   };
-
-//   const handleButtonClick = (
-//     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-//   ) => {
-//     handleDownloadClick(e, downloadOption, includeOptions);
-//   };
-
-//   return (
-//     <Modal handleCloseModal={handleCloseModal}>
-//       <div style={{ width: 350 }}>
-//         <div className={styles.modalHeader}>
-//           <h2>Download Data</h2>
-//           <CloseIcon onClick={handleCloseModal} />
-//         </div>
-//         <p className={styles.modalSubheading}>Choose file type to download</p>
-//         <div className={styles.modalDownloadButtons}>
-//           <div
-//             // className={"downloadButton" + (downloadOption === "CSV" ? " active" : "")}
-//             className={
-//               downloadOption === "CSV" ? styles.downloadButtonActive : styles.downloadButtonNonactivep
-//             }
-//             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-//               e.stopPropagation();
-//               setDownloadOption("CSV");
-//             }}
-//           >
-//             <CsvIcon />
-//             <div
-//               className={
-//                 downloadOption === "CSV" ? styles.downloadButtonActivep : styles.downloadButtonNonactivep
-//               }
-//             >
-//               <p>CSV</p>
-//             </div>
-//           </div>
-//           <div
-//             className={
-//               downloadOption === "PNG" ? styles.downloadButtonActive : styles.downloadButtonNonactivep
-//             }
-//             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-//               e.stopPropagation();
-//               setDownloadOption("PNG");
-//             }}
-//           >
-//             <PngIcon />
-//             <div
-//               className={
-//                 downloadOption === "PNG" ? styles.downloadButtonActivep : styles.downloadButtonNonactivep
-//               }
-//             >
-//               <p>PNG</p>
-//             </div>
-//           </div>
-//         </div>
-//         {downloadOption === "CSV" && (
-//           <div className={styles.downloadCheckboxes}>
-//             <label>
-//               <input
-//                 type="checkbox"
-//                 checked={includeOptions.hiddenCharts}
-//                 onChange={(e) => {
-//                   e.stopPropagation();
-//                   handleIncludeOptionsChange("hiddenCharts", e.target.checked);
-//                 }}
-//               />
-//               Include the hidden charts in the export
-//             </label>
-//             <label>
-//               <input
-//                 type="checkbox"
-//                 checked={includeOptions.selectedTimeFrame}
-//                 onChange={(e) => {
-//                   e.stopPropagation();
-//                   handleIncludeOptionsChange(
-//                     "selectedTimeFrame",
-//                     e.target.checked
-//                   );
-//                 }}
-//               />
-//               Include only the selected timeframe
-//             </label>
-//           </div>
-//         )}
-//         <Button className="w-full p-2.5 rounded-full flex items-center justify-center cursor-pointer bg-[#1a375f] text-white mt-6 hover:opacity-90" handleClick={handleButtonClick}>
-//           <p className="w-full text-center text-white">Download {downloadOption}</p>
-//         </Button>
-//       </div>
-//     </Modal>
-//   );
-// };
-
-// export default DownloadDataModal;
-
 import { useState } from "react";
 import Modal from "../../ui/Modal/Modal";
 import CsvIcon from "../../assets/icons/CsvIcon";
@@ -297,29 +172,12 @@ const DownloadDataModal: React.FC<DownloadDataModalProps> = ({
         )}
         {verified && (
           <>
-            <p className={styles.modalSubheading}>Choose file type to download</p>
+            <p className={styles.modalSubheading}>Click to download</p>
             <div className={styles.modalDownloadButtons}>
-              <div
+
+               <div
                 className={
-                  downloadOption === "CSV" ? styles.downloadButtonActive : styles.downloadButtonNonactivep
-                }
-                onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                  e.stopPropagation();
-                  setDownloadOption("CSV");
-                }}
-              >
-                <CsvIcon />
-                <div
-                  className={
-                    downloadOption === "CSV" ? styles.downloadButtonActivep : styles.downloadButtonNonactivep
-                  }
-                >
-                  <p>CSV</p>
-                </div>
-              </div>
-              <div
-                className={
-                  downloadOption === "PNG" ? styles.downloadButtonActive : styles.downloadButtonNonactivep
+                   styles.downloadButtonActive 
                 }
                 onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                   e.stopPropagation();
@@ -329,44 +187,15 @@ const DownloadDataModal: React.FC<DownloadDataModalProps> = ({
                 <PngIcon />
                 <div
                   className={
-                    downloadOption === "PNG" ? styles.downloadButtonActivep : styles.downloadButtonNonactivep
+                    styles.downloadButtonActivep 
                   }
                 >
-                  <p>PNG</p>
-                </div>
-              </div>
+                  <p>File</p>
+                </div> 
+               </div> 
             </div>
-            {downloadOption === "CSV" && (
-              <div className={styles.downloadCheckboxes}>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={includeOptions.hiddenCharts}
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      handleIncludeOptionsChange("hiddenCharts", e.target.checked);
-                    }}
-                  />
-                  Include the hidden charts in the export
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={includeOptions.selectedTimeFrame}
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      handleIncludeOptionsChange(
-                        "selectedTimeFrame",
-                        e.target.checked
-                      );
-                    }}
-                  />
-                  Include only the selected timeframe
-                </label>
-              </div>
-            )}
             <Button className="w-full p-2.5 rounded-full flex items-center justify-center cursor-pointer bg-[#1a375f] text-white mt-6 hover:opacity-90" handleClick={handleButtonClick}>
-              <p className="w-full text-center text-white">Download {downloadOption}</p>
+              <p className="w-full text-center text-white">Download</p>
             </Button>
           </>
         )}

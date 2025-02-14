@@ -252,11 +252,19 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
 
               tooltip
                 .style("opacity", "1")
+                // .html(
+                //   `<div class="font-bold text-sm mb-2 bg-gray-400"">${formattedDate}/${commodity}-${state}${district === 'All' ? '' : district}-${calculationType}</div>
+                //   <div class="text-xs p-1"><strong>Modal Price:</strong> ${d.avg_modal_price} ₹/Quintal</div>
+                //   <div class="text-xs p-1"><strong>Min Price:</strong> ${d.avg_min_price} ₹/Quintal</div>
+                //   <div class="text-xs p-1"><strong>Max Price:</strong> ${d.avg_max_price} ₹/Quintal</div>`
+                // );
                 .html(
-                  `<div class="font-bold text-sm mb-2 bg-gray-400"">${formattedDate}/${commodity}-${state}${district === 'All' ? '' : district}-${calculationType}</div>
-                  <div class="text-xs p-1"><strong>Modal Price:</strong> ${d.avg_modal_price} ₹/Quintal</div>
-                  <div class="text-xs p-1"><strong>Min Price:</strong> ${d.avg_min_price} ₹/Quintal</div>
-                  <div class="text-xs p-1"><strong>Max Price:</strong> ${d.avg_max_price} ₹/Quintal</div>`
+                  `<div class="font-bold text-sm mb-2 bg-gray-400">
+                    ${formattedDate}/${commodity}-${state}${district === 'All' ? '' : district}-${calculationType}
+                  </div>
+                  <div class="text-xs p-1"><strong>Modal Price:</strong> ${d.avg_modal_price != null ? `${d.avg_modal_price} ₹/Quintal` : 'Data not available'}</div>
+                  <div class="text-xs p-1"><strong>Min Price:</strong> ${d.avg_min_price != null ? `${d.avg_min_price} ₹/Quintal` : 'Data not available'}</div>
+                  <div class="text-xs p-1"><strong>Max Price:</strong> ${d.avg_max_price != null ? `${d.avg_max_price} ₹/Quintal` : 'Data not available'}</div>`
                 );
             })
             .on("mousemove", (event) => {

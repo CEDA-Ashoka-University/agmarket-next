@@ -14,7 +14,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
-import { ChartButton } from "../ChartButton";
 const BarPlot = ({ initialMapData, stateCode }) => {
   const [mapdata, setinitialData] = useState(initialMapData || []);
   const [openModalName, setOpenModalName] = useState("");
@@ -29,22 +28,22 @@ const BarPlot = ({ initialMapData, stateCode }) => {
   const [width_chart, setChartWidth] = useState(800); // Default width
 
   useEffect(() => {
-    console.log("chartContainerRef.current", containerRef.current);
+  
     if (chartContainerRef.current) {
-      console.log("chartContainerRef.current.clientWidth", containerRef.current.clientWidth);
+      
     }
   }, []);
   useEffect(() => {
     const updateWidth = () => {
       if (chartContainerRef.current) {
         const newWidth = chartContainerRef.current.clientWidth;
-        console.log("get the width", newWidth);
+      
 
         if (newWidth !== width_chart && newWidth > 0) {
           setChartWidth(newWidth);
         }
       } else {
-        console.log("chartContainerRef is null");
+     
       }
     };
 
@@ -98,10 +97,7 @@ const BarPlot = ({ initialMapData, stateCode }) => {
       setSelectedCat(defaultCategory);
     }
 
-    // Filter data based on the updated or selected category
-    // const updatedData = initialMapData?.[dataKey]?.filter(
-    //   (item) => (item.month || item.date || item.year) === (isSelectedCatValid ? selectedCat : defaultCategory)
-    // );
+
     const modalPriceByRegion = {};
     filteredMapData.forEach((d) => {
       const key = stateCode === 0 ? d.district_id : d.district_id;
@@ -109,7 +105,7 @@ const BarPlot = ({ initialMapData, stateCode }) => {
         modalPriceByRegion[key] = d.ModalPrice | d.total_quantity;
       }
     });
-    // // console.log("Map data", filteredMapData)
+
     const modalPrices = Object.values(modalPriceByRegion);
 
     const updatedData = initialMapData?.[dataKey]
@@ -132,7 +128,6 @@ const BarPlot = ({ initialMapData, stateCode }) => {
       modalPriceByRegion[key] = d.ModalPrice | d.total_quantity;
     }
   });
-  // console.log("Map data", filteredMapData)
   const modalPrices = Object.values(modalPriceByRegion);
 
   const handleCatChange = (category) => {
@@ -149,48 +144,42 @@ const BarPlot = ({ initialMapData, stateCode }) => {
       .sort((a, b) => (selectedTab === "Price" ? b.ModalPrice - a.ModalPrice : b.total_quantity - a.total_quantity))
       .slice(0, 20); // Keep only top 20 entries
 
-    console.log("Category Change:", category);
-    console.log("Sorted & Filtered Data (Top 20):", updatedData);
+  
 
     setFilteredMapData(updatedData);
   };
-  console.log("inside bar plot", modalPriceByRegion)
+
 
   useEffect(() => {
     if (selectedCat) {
       handleCatChange(selectedCat); // Update the filtered map data when category changes
     }
   }, [selectedCat]);
+  
   const handleDownload = () => {
     const container = containerRef.current;
 
     if (!container) return;
 
     // Temporarily hide the unselected tab
-    const priceTab = document.querySelector('[data-tab="price"]');
-    const quantityTab = document.querySelector('[data-tab="quantity"]');
+    const priceTab = document.querySelector('[data-tab="Price"]');
+    const quantityTab = document.querySelector('[data-tab="Quantity"]');
+ 
 
     // Store the original display values
     const priceTabDisplay = priceTab ? priceTab.style.display : '';
     const quantityTabDisplay = quantityTab ? quantityTab.style.display : '';
-    // console.log("bar price table", priceTab)
+    
     // Hide the tab not selected
     if (selectedTab === "Price" && quantityTab) {
       quantityTab.style.display = "none";
+
     } else if (selectedTab === "Quantity" && priceTab) {
       priceTab.style.display = "none";
     }
-
     // Add a white background and capture the container
     domtoimage
-      // .toJpeg(container, {
-      //   quality: 2.0,
-      //   style: {
-      //     backgroundColor: '#ffffff', // Ensure a white background
-      //   },
-      // })
-
-      .toPng(container, {
+      .toJpeg(container, {
         quality: 1.0,
         bgcolor: "#ffffff",
         width: container.clientWidth * 3, // 3x scaling
@@ -209,7 +198,7 @@ const BarPlot = ({ initialMapData, stateCode }) => {
 
         // Trigger download
         const link = document.createElement('a');
-        link.download = `map_with_${selectedTab.toLowerCase()}.jpg`;
+        link.download = `Barplot_with_${selectedTab.toLowerCase()}.jpg`;
         link.href = dataUrl;
         link.click();
       })
@@ -223,10 +212,13 @@ const BarPlot = ({ initialMapData, stateCode }) => {
   };
 
 
+
+
+ 
   useEffect(() => {
     // if (loading || !filteredMapData.length) return; 
     const width = width_chart;
-    // console.log("width bar chart",width,width_chart)
+
     const height = 400;
     const svg = d3.select(svgRef.current).attr("width", width).attr("height", height);
     svg.selectAll("*").remove();
@@ -276,7 +268,7 @@ const BarPlot = ({ initialMapData, stateCode }) => {
       .style("font-weight", "500")
       .style("font-size", "12px")
       .style("fill", "#1a375f")
-      .text(selectedTab === "Price" ? "₹/Quintal →" : "Total Quantity");
+      .text(selectedTab === "Price" ? "₹/Quintal →" : "Total Quantity in Tonnes →");
 
 
 
@@ -329,21 +321,21 @@ const BarPlot = ({ initialMapData, stateCode }) => {
   return (
     <div ref={chartContainerRef} style={{ width: "100%" }}>
       {/* Dropdown and Tabs Container */}
-      <div >
-        <div ref={containerRef} style={{  position: "relative", padding: "10px", height: '525px',width:"100%" }}>
+      <div  >
+        <div ref={containerRef}  style={{  position: "relative", padding: "10px", height: '525px',width:"100%" }}>
           <div style={{ display: "flex", alignItems: "center", position: "relative", gap: "15px" }}>
 
-            <div className="flex gap-2 p-1 bg-white">
-              <button data-tab="price"
+            <div  className="flex gap-2 p-1 bg-white">
+              <button data-tab="Price"
                 onClick={() => handleTabChange("Price")}
-                className={`px-2.5 py-1 text-sm border rounded cursor-pointer ${selectedTab === "Price" ? "bg-[#1A375F] text-white" : "bg-white text-[#1A375F]"
+                className={`px-2.5 py-1 text-sm border rounded ${selectedTab === "Price" ? "bg-[#1A375F] text-white" : "bg-white text-[#1A375F]"
                   } border-[#1A375F]`}
               >
                 Price
               </button>
-              <button data-tab="quantity"
+              <button data-tab="Quantity"
                 onClick={() => handleTabChange("Quantity")}
-                className={`px-2.5 py-1 text-sm border rounded cursor-pointer ${selectedTab === "Quantity" ? "bg-[#1A375F] text-white" : "bg-white text-[#1A375F]"
+                className={`px-2.5 py-1 text-sm border rounded ${selectedTab === "Quantity" ? "bg-[#1A375F] text-white" : "bg-white text-[#1A375F]"
                   } border-[#1A375F]`}
               >
                 Quantity
@@ -468,3 +460,5 @@ const BarPlot = ({ initialMapData, stateCode }) => {
 };
 
 export default BarPlot;
+
+

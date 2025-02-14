@@ -32,8 +32,10 @@
   padding-bottom: 28px;
   margin-top: 28px;
   display: flex;
+  height: fit-content;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 32px;
 }
 

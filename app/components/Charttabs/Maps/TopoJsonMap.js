@@ -121,7 +121,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
     setFilteredMapData(updatedData || []);
   }, [initialMapData, selectedTab, selectedCat]);
 
-  // console.log("sorted",sortedCategories)
+ 
 
 
   const handleCatChange = (category) => {
@@ -132,8 +132,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
     const updatedData = initialMapData?.[dataKey]?.filter(
       (item) => (item.month || item.date || item.year) === category
     );
-    // console.log("Category Change:", category);
-    // console.log("Updated Data:", updatedData);
+
 
     setFilteredMapData(updatedData || []);
   };
@@ -159,16 +158,29 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
     // Hide the tab not selected
     if (selectedTab === "Price" && quantityTab) {
       quantityTab.style.display = "none";
+      
     } else if (selectedTab === "Quantity" && priceTab) {
       priceTab.style.display = "none";
     }
 
     // Add a white background and capture the container
     domtoimage
+      // .toJpeg(container, {
+      //   quality: 1.0,
+      //   style: {
+      //     backgroundColor: '#ffffff', // Ensure a white background
+      //   },
+      // })
       .toJpeg(container, {
         quality: 1.0,
+        bgcolor: "#ffffff",
+        width: container.clientWidth * 3, // 3x scaling
+        height: container.clientHeight * 3,
         style: {
-          backgroundColor: '#ffffff', // Ensure a white background
+          transform: "scale(3)", // Scale for better clarity
+          transformOrigin: "top left",
+          width: container.clientWidth + "px",
+          height: container.clientHeight + "px",
         },
       })
       .then((dataUrl) => {
@@ -193,7 +205,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
 
   useEffect(() => {
     const width = width_chart;
-    // console.log("inside topojson",width)
+
     const height = 400;
     const svg = d3.select(svgRef.current).attr("width", width).attr("height", height);
 
@@ -207,7 +219,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
       console.warn("No data available for map rendering.");
       return;
     }
-    // console.log("filtermap data qty and price", filteredMapData)
+   
     const modalPriceByRegion = {};
     filteredMapData.forEach((d) => {
       const key = stateCode === 0 ? d.district_id : d.district_id;
@@ -215,9 +227,9 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
         modalPriceByRegion[key] = d.ModalPrice | d.total_quantity;
       }
     });
-    // console.log("Map data", filteredMapData)
+   
     const modalPrices = Object.values(modalPriceByRegion);
-    // console.log("modelprices by region", modalPrices)
+   
     const colorList = ["#F5B49A", "#F28765", "#F07368", "#F05C6B", "#C2284C"];
     const color = d3
       .scaleQuantize()
@@ -249,9 +261,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
           (district) => district.properties.state_code === String(stateCode)
         );
 
-    // console.log("state_code",stateCode)
 
-    // console.log("filteredfeatures",filteredFeatures)
     const projection = d3.geoMercator();
     const path = d3.geoPath().projection(projection);
 
@@ -263,7 +273,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
       const bounds = { type: "FeatureCollection", features: filteredFeatures };
       projection.fitExtent([[0, 0], [width, height]], bounds);
     }
-    // console.log(`map data filtered feature: this is geojson: ${geoJsonData},this is filtered features ${filteredFeatures} this is statejson ${stateTopoJsonData}`)
+   
     g.selectAll("path")
       .data(filteredFeatures)
       .enter()
@@ -318,7 +328,6 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
 
 
       .on("mousemove", function (event) {
-        // console.log("Yes")
         tooltip
           .style("top", `${event.pageY + 10}px`)
           .style("left", `${event.pageX + 10}px`);
@@ -330,16 +339,13 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
     const sortedPrices = Object.entries(modalPriceByRegion).sort(
       (a, b) => b[1] - a[1]
     );
-    // console.log("sorted prices", sortedPrices)
+
     if (sortedPrices.length) {
       const [highest, lowest] = [
         sortedPrices[0],
         sortedPrices[sortedPrices.length - 1],
       ];
-      // console.log("Prices sorted",highest,lowest)
-      // console.log("geoJsonData",geoJsonData.features)
 
-      // console.log("highes and lowest price",highest, lowest)
       setHighestPrice({
         name:
           stateCode === 0
