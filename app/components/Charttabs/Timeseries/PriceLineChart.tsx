@@ -93,9 +93,18 @@ const PriceLineChart: React.FC<PriceLineChartProps> = ({ PriceData, onRemoveComm
     railStyle: { backgroundColor: 'lightgray' }, // Color of the rail (background)
     handleStyle: { backgroundColor: 'darkblue', borderColor: 'darkblue' }, // Color of the handles
   };
+  // const filteredData = PriceData.filter(d => {
+  //   const date = parseDate(d);
+  //   return date >= dateRange[0] && date <= dateRange[1];
+  // });
+
   const filteredData = PriceData.filter(d => {
     const date = parseDate(d);
-    return date >= dateRange[0] && date <= dateRange[1];
+    const hasValidPrice =
+      d.avg_modal_price !== null &&
+      d.avg_min_price !== null &&
+      d.avg_max_price !== null;
+    return date >= dateRange[0] && date <= dateRange[1] && hasValidPrice;
   });
 
 
