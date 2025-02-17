@@ -26,7 +26,7 @@ interface ButtonProps {
   style?: React.CSSProperties;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Buttons: React.FC<ButtonProps> = ({
   className = "",
   children,
   handleClick,
@@ -71,4 +71,4 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-export default Button;
+export default Buttons;

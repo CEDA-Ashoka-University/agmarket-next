@@ -40,7 +40,7 @@ function AgmarkIcon() {
       <rect width="24" height="24" fill="#1A375F" />
 <g clip-path="url(#clip0_7_650)">
 <path d="M23.5 0.5H0.5V23.5H23.5V0.5Z" stroke="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M9.43929 7.59312C11.3915 5.18231 14.5073 4.26865 17.3252 5.00575C18.6317 7.60936 18.3856 10.8465 16.4336 13.257C14.4816 15.6675 11.3664 16.5812 8.54874 15.8447C7.24117 13.2416 7.48706 10.0039 9.43929 7.59312Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.43929 7.59312C11.3915 5.18231 14.5073 4.26865 17.3252 5.00575C18.6317 7.60936 18.3856 10.8465 16.4336 13.257C14.4816 15.6675 11.3664 16.5812 8.54874 15.8447C7.24117 13.2416 7.48706 10.0039 9.43929 7.59312Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-Linejoin="round"/>
 <path d="M11.5 12.5C7.71599 15.9923 7.47392 17.212 8.51188 20.2206" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 <defs>

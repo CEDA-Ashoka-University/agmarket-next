@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 async function main() {
   // ... you will write your Prisma Client queries here
   const allDistricts = await prisma.master_district.findMany()
-  console.log(allDistricts)
+  // console.log(allDistricts)
 }
 
 main()

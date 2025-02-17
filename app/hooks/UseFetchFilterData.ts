@@ -65,7 +65,7 @@ export const useFetchFilteredData = ({
         if (!res.ok) throw new Error(`Failed to fetch data: ${res.statusText}`);
         const data = await res.json();
         setFilteredData(data);
-        // console.log("data:",data.priceData)
+         // console.log("data:",data.priceData)
       } catch (error) {
         console.error("Error fetching filtered data:", error);
       } finally {

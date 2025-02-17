@@ -1,8 +1,12 @@
 
 import * as React from "react";
-
+import { useState, useEffect } from "react";
 import { PriceData, QuantityData, PriceTableProps } from "./Types";
-
+import ShareSocialModal from '../ShareSocialModal/ShareSocialModal'
+import ShareIcon from "../../assets/icons/ShareIcon"
+import DownloadIcon from "../../assets/icons/DownloadIcon"
+import Buttons from "../../ui/Button/Button"
+import DownloadDataModal from '../DowloadDataModal/DownloadDataModal'
 import Tabs from "./tabletab";
 import { ActionButton } from "./ActionButton";
 export const PriceTable: React.FC<PriceTableProps> = ({
@@ -13,6 +17,8 @@ export const PriceTable: React.FC<PriceTableProps> = ({
   const priceDataArray = Array.isArray(priceData) ? priceData : [];
   const quantityDataArray = Array.isArray(quantityData) ? quantityData : [];
   const TABLE_HEAD = ["Date", "State", "Commodity", "Price (₹)", "Change (₹)"];
+  
+  const [openModalName, setOpenModalName] = useState("");
   
 
 
@@ -173,7 +179,7 @@ export const PriceTable: React.FC<PriceTableProps> = ({
           />
         </div>
         <div className="flex gap-6 bg-gray-100 border-t border-blue-950/30 rounded-b-2xl py-4 px-6 h-20">
-        <ActionButton
+        {/* <ActionButton
             icon="https://cdn.builder.io/api/v1/image/assets/TEMP/86ad0de7b198337402923cf87d9baa86116ee50092bfcc24e1c54d8581194069?placeholderIfAbsent=true&apiKey=5b3d0929746d4ec3b24a0cb1c5bb8afc"
             label="Download data"
             onClick={() => {
@@ -183,8 +189,56 @@ export const PriceTable: React.FC<PriceTableProps> = ({
           />
                         <ActionButton
               icon="https://cdn.builder.io/api/v1/image/assets/TEMP/8bff28cbdfaed95c92dea24f79f045501c64332b90fab6bc4c4081c2a257b235?placeholderIfAbsent=true&apiKey=5b3d0929746d4ec3b24a0cb1c5bb8afc"
-              label="Share table"
+             label="Share chart"
+              onClick={() => setOpenModalName("SHARE_CHART")}
+              />
+                    {openModalName === "SHARE_CHART" && (
+            <ShareSocialModal
+              handleCloseModal={() => setOpenModalName("")}
+              // handleDownloadClick={handleDownloadChart}
             />
+            
+          )} */}
+
+<Buttons
+  className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
+  handleClick={() => setOpenModalName("DOWNLOAD_CHART")}
+>
+  <DownloadIcon className="w-3.5 h-3.5" /> 
+  <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
+    Download Table
+  </p>
+</Buttons>
+
+<Buttons
+  className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
+  handleClick={() => setOpenModalName("SHARE_CHART")}
+>
+  <ShareIcon className="w-3.5 h-3.5" />
+  <p className="font-inter font-normal text-sm leading-4 text-primary w-max">
+    Share Chart
+  </p>
+</Buttons>
+
+{openModalName === "DOWNLOAD_CHART" && (
+  <DownloadDataModal
+    handleCloseModal={() => setOpenModalName("")}
+    handleDownloadClick={() => {
+      downloadCSV(priceDataWithChange, "price_data.csv");
+      downloadCSV(qtyDataWithChange, "quantity_data.csv");
+    }}
+  />
+)}
+
+{openModalName === "SHARE_CHART" && (
+  <ShareSocialModal
+    handleCloseModal={() => setOpenModalName("")}
+    // handleDownloadClick={handleDownloadChart}
+  />
+)}
+
+ 
+            
       </div>
       </div>
     </div>

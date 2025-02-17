@@ -1,7 +1,3 @@
-
-
-// export default Filter;
-
 import React, { useEffect, useState } from "react";
 import styles from "./Filters.module.css"; // Import CSS module
 
@@ -12,17 +8,17 @@ interface FilterProps {
   setCommodityFilter: React.Dispatch<React.SetStateAction<string>>;
   districtFilter: string;
   setDistrictFilter: React.Dispatch<React.SetStateAction<string>>;
-  startDate: string;
+  setCalculationTypeFilter: React.Dispatch<React.SetStateAction<string>>;
+  calculationtype: string;
+  disableDateFilters?: boolean; // New prop to freeze date filters
+   availableStates: string[];
+  availableCommodities: string[];
+//   disableDateFilters?: boolean; /
+startDate: string;
   setStartDate: React.Dispatch<React.SetStateAction<string>>;
   endDate: string;
   setEndDate: React.Dispatch<React.SetStateAction<string>>;
-  calculationtype: string;
-  setCalculationTypeFilter: React.Dispatch<React.SetStateAction<string>>;
-  // setDistrictFilter: React.Dispatch<React.SetStateAction<string>>;
-  availableStates: string[];
-  availableCommodities: string[];
-  disableDateFilters?: boolean; // New prop to freeze date filters
-  // availableDistricts: string[];
+ 
 }
 
 const Filter: React.FC<FilterProps> = ({
@@ -33,12 +29,10 @@ const Filter: React.FC<FilterProps> = ({
   districtFilter,
   setDistrictFilter,
   startDate,
-  setStartDate,
   endDate,
-  setEndDate,
   calculationtype,
   setCalculationTypeFilter,
-  disableDateFilters = false, // Default is false
+  disableDateFilters = false,
 }) => {
   const [availableStates, setAvailableStates] = useState<{ state_id: number; state_name: string }[]>([]);
   const [availableCategories, setAvailableCategories] = useState<{ category_id: number; category_name: string }[]>([]);
@@ -47,25 +41,19 @@ const Filter: React.FC<FilterProps> = ({
   const [categoryFilter, setCategoryFilter] = useState<string>("");
   const [availableDistricts, setAvailableDistricts] = useState<{ district_id: number; district_name: string }[]>([]);
 
-    // Set default values here
-    useEffect(() => {
-      setCategoryFilter("1");
-
-      setStateFilter("0"); // Default: All India
-      setCommodityFilter("1"); // Default: Wheat commodity selected
-      setDistrictFilter("0"); // Default: All Districts
-      setStartDate("2024-01-01"); // Default: 90 days ago
-      setEndDate(new Date().toISOString().split("T")[0]); // Default: Today
-      setCalculationTypeFilter("monthly"); // Default: Daily calculation
-    }, [setCategoryFilter,setStateFilter, setCommodityFilter, setDistrictFilter, setStartDate, setEndDate, setCalculationTypeFilter]);
-  
+  useEffect(() => {
+    setCategoryFilter("1");
+    setStateFilter("0");
+    setCommodityFilter("1");
+    setDistrictFilter("0");
+    setCalculationTypeFilter("monthly");
+  }, [setCategoryFilter, setStateFilter, setCommodityFilter, setDistrictFilter, setCalculationTypeFilter]);
 
   useEffect(() => {
     async function fetchFilterOptions() {
       try {
         const res = await fetch(`/api/all`);
         const data = await res.json();
-        // console.log("inside filter data", data);
         setAvailableStates(data.states || []);
         setAvailableCategories(data.categories || []);
         setAvailableCommodities(data.commodities || []);
@@ -73,7 +61,6 @@ const Filter: React.FC<FilterProps> = ({
         console.error("Error fetching filter options:", error);
       }
     }
-
     fetchFilterOptions();
   }, []);
 
@@ -89,11 +76,9 @@ const Filter: React.FC<FilterProps> = ({
         }
       }
     }
-
     fetchDistricts();
   }, [stateFilter]);
 
-  // Update commodities based on the selected category
   useEffect(() => {
     if (categoryFilter) {
       const filtered = availableCommodities.filter(
@@ -108,7 +93,6 @@ const Filter: React.FC<FilterProps> = ({
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        {/* Category Filter */}
         <label className={styles.label}>
           Category:
           <select
@@ -125,14 +109,13 @@ const Filter: React.FC<FilterProps> = ({
           </select>
         </label>
 
-        {/* Commodity Filter */}
         <label className={styles.label}>
           Commodity:
           <select
             className={styles.select}
             value={commodityFilter}
             onChange={(e) => setCommodityFilter(e.target.value)}
-            disabled={!categoryFilter} // Disable if no category is selected
+            disabled={!categoryFilter}
           >
             <option value="">Select a commodity</option>
             {filteredCommodities.map((commodity) => (
@@ -143,7 +126,6 @@ const Filter: React.FC<FilterProps> = ({
           </select>
         </label>
 
-        {/* State Filter */}
         <label className={styles.label}>
           State:
           <select
@@ -161,7 +143,6 @@ const Filter: React.FC<FilterProps> = ({
           </select>
         </label>
 
-        {/* District Filter */}
         <label className={styles.label}>
           District:
           <select
@@ -179,31 +160,26 @@ const Filter: React.FC<FilterProps> = ({
           </select>
         </label>
 
-        {/* Start Date Filter */}
-        <label className={styles.label}>
+        {/* <label className={styles.label}>
           Start Date:
           <input
             type="date"
             className={styles.input}
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            disabled={disableDateFilters} // Disable when true
+            disabled={disableDateFilters}
           />
         </label>
 
-        {/* End Date Filter */}
         <label className={styles.label}>
           End Date:
           <input
             type="date"
             className={styles.input}
             value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            disabled={disableDateFilters} // Disable when true
+            disabled={disableDateFilters}
           />
-        </label>
+        </label> */}
 
-        {/* Calculation Type Filter */}
         <label className={styles.label}>
           Calculation Type:
           <select
