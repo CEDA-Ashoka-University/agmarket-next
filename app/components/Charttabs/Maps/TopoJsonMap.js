@@ -155,6 +155,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
     const priceTabDisplay = priceTab ? priceTab.style.display : '';
     const quantityTabDisplay = quantityTab ? quantityTab.style.display : '';
 
+
     // Hide the tab not selected
     if (selectedTab === "Price" && quantityTab) {
       quantityTab.style.display = "none";
@@ -163,14 +164,11 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
       priceTab.style.display = "none";
     }
 
+    // Define a fixed resolution (adjust as needed)
+
+
     // Add a white background and capture the container
     domtoimage
-      // .toJpeg(container, {
-      //   quality: 1.0,
-      //   style: {
-      //     backgroundColor: '#ffffff', // Ensure a white background
-      //   },
-      // })
       .toJpeg(container, {
         quality: 1.0,
         bgcolor: "#ffffff",
@@ -182,6 +180,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
           width: container.clientWidth + "px",
           height: container.clientHeight + "px",
         },
+
       })
       .then((dataUrl) => {
         // Restore the original display values
@@ -528,13 +527,6 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
 
 
           </svg>
-          {/* <g style={{ transform: "translate(25%, 25%)", opacity: 0.05 ,marginTop:'-250px', marginLeft:'200px'}}>
-              <CedaIcon
-                width={910 * 0.5} // Adjust width as needed
-                height={910 * 0.5 * 0.25} // Adjust height as needed
-                style={{marginTop:'-250px', marginLeft:'200px',z:"-1"}} // Ensure it does not interfere with interactions
-              />
-            </g> */}
 
           <div
             ref={legendRef}
@@ -565,23 +557,7 @@ const TopoJsonMap = ({ initialMapData, stateCode }) => {
         </div>
 
         <div className="flex gap-6 bg-gray-100 border-t border-blue-950/30 rounded-b-2xl py-4 px-4 h-20 w-full mt-[12px]">
-          {/* <ChartButton
-            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/11765651394374b6b9612a55c2b357118ffccaf24c9930bc589282fa25505338?placeholderIfAbsent=true&apiKey=5b3d0929746d4ec3b24a0cb1c5bb8afc"
-            text="Download chart"
-            onClick={handleDownload}
-          />
-          <ChartButton
-            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/fdc24a00e9f1688797bcaa3a71dabf14ed5176c1612528d9a886f3eb432a31a6?placeholderIfAbsent=true&apiKey=5b3d0929746d4ec3b24a0cb1c5bb8afc"
-            text="Share chart"
-            onClick={() => setOpenModalName("SHARE_CHART")}
-          />
-                {openModalName === "SHARE_CHART" && (
-        <ShareSocialModal
-          handleCloseModal={() => setOpenModalName("")}
-          handleDownloadClick={handleDownload}
-        />
-        
-      )} */}
+
           <Buttons
             className="flex items-center gap-2 bg-white border border-[#1A375F] rounded-lg px-3 py-2 cursor-pointer"
             handleClick={() => setOpenModalName("DOWNLOAD_CHART")}
